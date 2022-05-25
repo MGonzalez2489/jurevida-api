@@ -46,8 +46,12 @@ module.exports = {
     gender: {
       type: "string",
       required: true,
-      example: "masculino / femenino",
+      example: "masculino",
       isIn: ["masculino", "femenino"],
+    },
+    address: {
+      type: "string",
+      required: false,
     },
     roles: {
       collection: "Role",

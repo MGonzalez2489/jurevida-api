@@ -15,6 +15,16 @@ module.exports.bootstrap = async function () {
   if (existingRoles.length == 0) {
     await Role.createEach([
       {
+        name: "root",
+        displayName: "root",
+        publicId: GuidService.generateGuid(),
+      },
+      {
+        name: "administrador",
+        displayName: "Administrador",
+        publicId: GuidService.generateGuid(),
+      },
+      {
         name: "consejo",
         displayName: "Consejo",
         publicId: GuidService.generateGuid(),
@@ -24,33 +34,26 @@ module.exports.bootstrap = async function () {
         displayName: "Patrocinador",
         publicId: GuidService.generateGuid(),
       },
-      {
-        name: "administrador",
-        displayName: "Administrador",
-        publicId: GuidService.generateGuid(),
-      },
-      {
-        name: "root",
-        displayName: "root",
-        publicId: GuidService.generateGuid(),
-      },
     ]);
   }
 
   existingRoles = await Role.find();
   const existingUsers = await User.find();
-  const rootRole = existingUsers.find((r) => r.name == "root");
-  const administrativeRole = existingUsers.find(
+  const rootRole = existingRoles.find(function (r) {
+    return r.name == "root";
+  });
+  console.log("root role", rootRole);
+  const administrativeRole = existingRoles.find(
     (r) => r.name == "administrador"
   );
-  const consejoRole = existingUsers.find((r) => r.name == "consejo");
-  const patrocinadorRole = existingUsers.find((r) => r.name == "patrocinador");
+  const consejoRole = existingRoles.find((r) => r.name == "consejo");
+  const patrocinadorRole = existingRoles.find((r) => r.name == "patrocinador");
 
   if (existingUsers.length == 0) {
     const gralPassword = await EncriptService.encriptString("12345");
     await User.createEach([
       {
-        email: "test1@test.com",
+        email: "admin@test.com",
         password: gralPassword,
         firstName: "Lola",
         lastName: "Perez",
@@ -58,7 +61,7 @@ module.exports.bootstrap = async function () {
         phone: "6391233212",
         gender: "femenino",
         publicId: GuidService.generateGuid(),
-        roles: [existingRoles[0].id],
+        roles: [rootRole.id],
       },
       {
         email: "test2@test.com",
@@ -69,7 +72,7 @@ module.exports.bootstrap = async function () {
         phone: "6391233212",
         gender: "femenino",
         publicId: GuidService.generateGuid(),
-        roles: [existingRoles[1].id],
+        roles: [administrativeRole.id],
       },
       {
         email: "test3@test.com",
@@ -80,7 +83,7 @@ module.exports.bootstrap = async function () {
         phone: "6391233212",
         gender: "femenino",
         publicId: GuidService.generateGuid(),
-        roles: [existingRoles[2].id],
+        roles: [consejoRole.id],
       },
       {
         email: "test4@test.com",
@@ -91,7 +94,7 @@ module.exports.bootstrap = async function () {
         phone: "6391233212",
         gender: "femenino",
         publicId: GuidService.generateGuid(),
-        roles: [existingRoles[3].id],
+        roles: [patrocinadorRole.id],
       },
       {
         email: "test5@test.com",
@@ -102,7 +105,7 @@ module.exports.bootstrap = async function () {
         phone: "6391233212",
         gender: "femenino",
         publicId: GuidService.generateGuid(),
-        roles: [existingRoles[0].id, existingRoles[1].id],
+        roles: [consejoRole.id, patrocinadorRole.id],
       },
     ]);
   }
