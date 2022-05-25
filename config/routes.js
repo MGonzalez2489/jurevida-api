@@ -20,7 +20,8 @@ module.exports.routes = {
 
   "/": { view: "pages/homepage" },
 
-  'GET /roles': 'RolesController.getAll',
+  "GET /roles": "RolesController.getAll",
+  "GET /users": "UsersController.getAll",
 
   /***************************************************************************
    *                                                                          *

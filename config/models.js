@@ -65,14 +65,14 @@ module.exports.models = {
    ***************************************************************************/
 
   attributes: {
+    id: { type: "number", autoIncrement: true },
+    publicId: { type: "string", required: true },
     createdAt: { type: "string", autoCreatedAt: true },
     createdBy: { type: "string", required: false },
     updatedAt: { type: "string", autoUpdatedAt: true },
     updatedBy: { type: "string", required: false },
     deletedAt: { type: "string", autoUpdatedAt: false },
     deletedBy: { type: "string", required: false },
-    publicId: { type: "string", required: true },
-    id: { type: "number", autoIncrement: true },
   },
 
   customToJSON: function () {

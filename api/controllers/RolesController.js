@@ -9,6 +9,6 @@ module.exports = {
   getAll: async function (req, res) {
     const query = {
     };
-    return ApiService.paginateResponse(req, res, Rol, query, {});
+    return ApiService.paginateResponse(req, res, Role, query, {});
   },
 };

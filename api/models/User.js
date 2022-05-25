@@ -21,42 +21,49 @@ module.exports = {
       protect: true,
       example: "2$28a8eabna301089103-13948134nad",
     },
-    nombres: {
+    firstName: {
       type: "string",
       required: true,
       maxLength: 120,
       example: "Alejandra",
     },
-    apePaterno: {
+    lastName: {
       type: "string",
       required: true,
       maxLength: 120,
       example: "Gonzalez",
-    },
-    apeMaterno: {
-      type: "string",
-      required: true,
-      maxLength: 120,
-      example: "Carrasco",
     },
     birthday: {
       type: "string",
       required: true,
       example: "2015-10-08",
     },
-    telefono: {
+    phone: {
       type: "string",
       required: true,
       example: "6147894512",
     },
-    genero: {
+    gender: {
       type: "string",
       required: true,
       example: "masculino / femenino",
+      isIn: ["masculino", "femenino"],
     },
-    rol: {
-      model: "Rol",
-      required: true,
+    roles: {
+      collection: "Role",
+      via: "users",
     },
+  },
+  customToJSON: function () {
+    return _.omit(this, [
+      "id",
+      "createdAt",
+      "createdBy",
+      "updatedAt",
+      "updatedBy",
+      "deletedAt",
+      "deletedBy",
+      "password",
+    ]);
   },
 };
