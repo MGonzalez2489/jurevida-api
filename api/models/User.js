@@ -33,11 +33,6 @@ module.exports = {
       maxLength: 120,
       example: "Gonzalez",
     },
-    birthday: {
-      type: "string",
-      required: true,
-      example: "2015-10-08",
-    },
     phone: {
       type: "string",
       required: true,
