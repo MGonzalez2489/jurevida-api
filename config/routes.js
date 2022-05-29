@@ -20,6 +20,8 @@ module.exports.routes = {
 
   "/": { view: "pages/homepage" },
 
+  "POST /auth/login": "AuthController.logIn",
+
   "GET /roles": "RolesController.getAll",
   "GET /users": "UsersController.getAll",
 

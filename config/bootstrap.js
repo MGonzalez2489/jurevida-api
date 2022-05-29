@@ -11,7 +11,6 @@
 
 module.exports.bootstrap = async function () {
   let existingRoles = await Role.find();
-  console.log("existing roles", existingRoles);
   if (existingRoles.length == 0) {
     await Role.createEach([
       {
@@ -42,7 +41,6 @@ module.exports.bootstrap = async function () {
   const rootRole = existingRoles.find(function (r) {
     return r.name == "root";
   });
-  console.log("root role", rootRole);
   const administrativeRole = existingRoles.find(
     (r) => r.name == "administrador"
   );
