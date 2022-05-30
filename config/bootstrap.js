@@ -10,112 +10,93 @@
  */
 
 module.exports.bootstrap = async function () {
-  let existingRoles = await Role.find();
-  if (existingRoles.length == 0) {
-    await Role.createEach([
-      {
-        name: "root",
-        displayName: "root",
-        publicId: await sails.helpers.generateGuid(),
-      },
-      {
-        name: "administrador",
-        displayName: "Administrador",
-        publicId: await sails.helpers.generateGuid(),
-      },
-      {
-        name: "consejo",
-        displayName: "Consejo",
-        publicId: await sails.helpers.generateGuid(),
-      },
-      {
-        name: "patrocinador",
-        displayName: "Patrocinador",
-        publicId: await sails.helpers.generateGuid(),
-      },
-    ]);
+  const existingRoles = await generateRoles();
+  const existingUsers = generateUsers(existingRoles);
+
+  async function generateRoles() {
+    let existingRoles = await Role.find();
+    let availableRoles = sails.config.constants.ROLES;
+
+    if (existingRoles.length === 0) {
+      for (const index in availableRoles) {
+        const role = availableRoles[index];
+        let newRole = {
+          name: role,
+          displayName: role.charAt(0).toUpperCase() + role.slice(1),
+          publicId: await sails.helpers.generateGuid(),
+        };
+        await Role.create(newRole);
+      }
+    }
+
+    existingRoles = await Role.find();
+    return existingRoles;
   }
 
-  existingRoles = await Role.find();
-  const existingUsers = await User.find();
-  const rootRole = existingRoles.find(function (r) {
-    return r.name == "root";
-  });
-  const administrativeRole = existingRoles.find(
-    (r) => r.name == "administrador"
-  );
-  const consejoRole = existingRoles.find((r) => r.name == "consejo");
-  const patrocinadorRole = existingRoles.find((r) => r.name == "patrocinador");
+  async function generateUsers(roles) {
+    let existingUsers = await User.find();
+    const rootRole = roles.find((r) => r.name == "root");
+    const administradorRole = roles.find((r) => r.name == "administrador");
+    const consejoRole = roles.find((r) => r.name == "consejo");
+    const patrocinadorRole = roles.find((r) => r.name == "patrocinador");
 
-  if (existingUsers.length == 0) {
-    const gralPassword = await EncriptService.encriptString("12345");
-    await User.createEach([
-      {
-        email: "admin@test.com",
-        password: gralPassword,
-        firstName: "Lola",
-        lastName: "Perez",
-        phone: "6391233212",
-        gender: "femenino",
-        publicId: await sails.helpers.generateGuid(),
-        roles: [rootRole.id],
-      },
-      {
-        email: "test2@test.com",
-        password: gralPassword,
-        firstName: "Lola",
-        lastName: "Perez",
-        phone: "6391233212",
-        gender: "femenino",
-        publicId: await sails.helpers.generateGuid(),
-        roles: [administrativeRole.id],
-      },
-      {
-        email: "test3@test.com",
-        password: gralPassword,
-        firstName: "Lola",
-        lastName: "Perez",
-        phone: "6391233212",
-        gender: "femenino",
-        publicId: await sails.helpers.generateGuid(),
-        roles: [consejoRole.id],
-      },
-      {
-        email: "test4@test.com",
-        password: gralPassword,
-        firstName: "Lola",
-        lastName: "Perez",
-        phone: "6391233212",
-        gender: "femenino",
-        publicId: await sails.helpers.generateGuid(),
-        roles: [patrocinadorRole.id],
-      },
-      {
-        email: "test5@test.com",
-        password: gralPassword,
-        firstName: "Lola",
-        lastName: "Perez",
-        phone: "6391233212",
-        gender: "femenino",
-        publicId: await sails.helpers.generateGuid(),
-        roles: [consejoRole.id, patrocinadorRole.id],
-      },
-    ]);
+    if (existingUsers.length == 0) {
+      const gralPassword = await EncriptService.encriptString("12345");
+      await User.createEach([
+        {
+          email: "admin@test.com",
+          password: gralPassword,
+          firstName: "Lola",
+          lastName: "Perez",
+          phone: "6391233212",
+          gender: "femenino",
+          publicId: await sails.helpers.generateGuid(),
+          roles: [rootRole.id],
+        },
+        {
+          email: "test2@test.com",
+          password: gralPassword,
+          firstName: "Lola",
+          lastName: "Perez",
+          phone: "6391233212",
+          gender: "femenino",
+          publicId: await sails.helpers.generateGuid(),
+          roles: [administradorRole.id],
+        },
+        {
+          email: "test3@test.com",
+          password: gralPassword,
+          firstName: "Lola",
+          lastName: "Perez",
+          phone: "6391233212",
+          gender: "femenino",
+          publicId: await sails.helpers.generateGuid(),
+          roles: [consejoRole.id],
+        },
+        {
+          email: "test4@test.com",
+          password: gralPassword,
+          firstName: "Lola",
+          lastName: "Perez",
+          phone: "6391233212",
+          gender: "femenino",
+          publicId: await sails.helpers.generateGuid(),
+          roles: [patrocinadorRole.id],
+        },
+        {
+          email: "test5@test.com",
+          password: gralPassword,
+          firstName: "Lola",
+          lastName: "Perez",
+          phone: "6391233212",
+          gender: "femenino",
+          publicId: await sails.helpers.generateGuid(),
+          roles: [consejoRole.id, patrocinadorRole.id],
+        },
+      ]);
+    }
+
+    existingUsers = User.find();
+    return existingUsers;
   }
-
-  // By convention, this is a good place to set up fake data during development.
-  //
-  // For example:
-  // ```
-  // // Set up fake development data (or if we already have some, avast)
-  // if (await User.count() > 0) {
-  //   return;
-  // }
-  //
-  // await User.createEach([
-  //   { emailAddress: 'ry@example.com', fullName: 'Ryan Dahl', },
-  //   { emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', },
-  //   // etc.
-  // ]);
-  // ```
 };

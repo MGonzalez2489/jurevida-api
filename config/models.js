@@ -74,7 +74,10 @@ module.exports.models = {
     deletedAt: { type: "string", autoUpdatedAt: false },
     deletedBy: { type: "string", required: false },
   },
-
+  beforeCreate: async function (valuesToSet, proceed) {
+    valuesToSet.publicId = await sails.helpers.generateGuid();
+    return proceed();
+  },
   customToJSON: function () {
     // Return a shallow copy of this record with the password and ssn removed.
     return _.omit(this, [
@@ -86,10 +89,6 @@ module.exports.models = {
       "deletedAt",
       "deletedBy",
     ]);
-  },
-  beforeCreate: async function (valuesToSet, proceed) {
-    valuesToSet.publicId = await sails.helpers.generateGuid();
-    return proceed();
   },
 
   /******************************************************************************

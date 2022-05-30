@@ -18,35 +18,22 @@ module.exports = {
     );
   },
   postUser: async function (req, res) {
-    const u = {
-      email: "",
-      firstName: "",
-      lastName: "",
-      phone: "",
-      gender: "",
-      address: "",
-      roles: [],
-      firstLogin: true, //lo seteamos aqui
-    };
+    const newUser = User.generateModelFromRequest(req);
 
-    if (!u.firstName) {
-      return res.badRequest("Nombre de usuario es requerido.");
-    }
-    if (!u.lastName) {
-      return res.badRequest("Apellido de usuario es requerido.");
-    }
-    if (u.roles.length < 1) {
-      return res.badRequest("Al menos un rol es requerido para el usuario.");
+    const existValidation = User.validateNewUser(newUser);
+
+    if (existValidation) {
+      return res.badRequest(existValidation);
     }
 
     const newPassword = Math.random().toString(36).slice(-8);
+    newUser.password = newPassword;
 
-    u.firstLogin = true;
-    //u.password =
+    const resNewUser = await User.create(newUser).fetch();
 
-    //1.- validar parametros del usuario:
-    //  A) campos requeridos
-    //  B) setear password min 8 digitos y encriptarlo
-    //  C) mandar correo de bienvenida al usuario incluyendo las credenciales para el primer logueo
+    //aqui se envia el correo electronico para confirmar la creacion
+    //de la cuenta e incluir la contrasena a ser cambiada
+
+    return ApiService.response(res, resNewUser);
   },
 };

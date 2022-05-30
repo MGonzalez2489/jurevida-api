@@ -24,6 +24,7 @@ module.exports.routes = {
 
   "GET /roles": "RolesController.getAll",
   "GET /users": "UsersController.getAll",
+  "POST /users": "UsersController.postUser",
 
   /***************************************************************************
    *                                                                          *

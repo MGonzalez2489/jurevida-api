@@ -67,6 +67,13 @@ module.exports = {
       via: "users",
     },
   },
+  beforeCreate: async function (valuesToSet, proceed) {
+    valuesToSet.publicId = await sails.helpers.generateGuid();
+    valuesToSet.password = await EncriptService.encriptString(
+      valuesToSet.password
+    );
+    return proceed();
+  },
   customToJSON: function () {
     return _.omit(this, [
       "id",
@@ -78,5 +85,24 @@ module.exports = {
       "deletedBy",
       "password",
     ]);
+  },
+  generateModelFromRequest: async function (req) {
+    const newUser = req.body;
+    newUser.firstLogin = true;
+    newUser.publicId = "guid";
+    return newUser;
+  },
+  validateNewUser: async function (newUser) {
+    if (!newUser.firstName) {
+      return "Nombre de usuario es requerido.";
+    }
+    if (!newUser.lastName) {
+      return "Apellido de usuario es requerido.";
+    }
+    if (newUser.roles.length < 1) {
+      return "Al menos un rol es requerido para el usuario.";
+    }
+
+    return null;
   },
 };

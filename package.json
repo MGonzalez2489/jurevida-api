@@ -11,6 +11,7 @@
     "bcrypt": "^5.0.1",
     "grunt": "1.0.4",
     "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.7.5",
     "sails": "^1.5.2",
     "sails-hook-grunt": "^5.0.0",
     "sails-hook-orm": "^4.0.0",

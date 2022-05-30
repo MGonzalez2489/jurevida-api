@@ -19,7 +19,7 @@ module.exports.policies = {
   // '*': true,
 
   "*": ["LogRequest"],
-  Users: {
-    "*": "AccessRequest",
-  },
+  //Users: {
+    //"*": ["LogRequest", "AccessRequest"],
+  //},
 };
