@@ -16,22 +16,22 @@ module.exports.bootstrap = async function () {
       {
         name: "root",
         displayName: "root",
-        publicId: GuidService.generateGuid(),
+        publicId: await sails.helpers.generateGuid(),
       },
       {
         name: "administrador",
         displayName: "Administrador",
-        publicId: GuidService.generateGuid(),
+        publicId: await sails.helpers.generateGuid(),
       },
       {
         name: "consejo",
         displayName: "Consejo",
-        publicId: GuidService.generateGuid(),
+        publicId: await sails.helpers.generateGuid(),
       },
       {
         name: "patrocinador",
         displayName: "Patrocinador",
-        publicId: GuidService.generateGuid(),
+        publicId: await sails.helpers.generateGuid(),
       },
     ]);
   }
@@ -57,7 +57,7 @@ module.exports.bootstrap = async function () {
         lastName: "Perez",
         phone: "6391233212",
         gender: "femenino",
-        publicId: GuidService.generateGuid(),
+        publicId: await sails.helpers.generateGuid(),
         roles: [rootRole.id],
       },
       {
@@ -67,7 +67,7 @@ module.exports.bootstrap = async function () {
         lastName: "Perez",
         phone: "6391233212",
         gender: "femenino",
-        publicId: GuidService.generateGuid(),
+        publicId: await sails.helpers.generateGuid(),
         roles: [administrativeRole.id],
       },
       {
@@ -77,7 +77,7 @@ module.exports.bootstrap = async function () {
         lastName: "Perez",
         phone: "6391233212",
         gender: "femenino",
-        publicId: GuidService.generateGuid(),
+        publicId: await sails.helpers.generateGuid(),
         roles: [consejoRole.id],
       },
       {
@@ -87,7 +87,7 @@ module.exports.bootstrap = async function () {
         lastName: "Perez",
         phone: "6391233212",
         gender: "femenino",
-        publicId: GuidService.generateGuid(),
+        publicId: await sails.helpers.generateGuid(),
         roles: [patrocinadorRole.id],
       },
       {
@@ -97,7 +97,7 @@ module.exports.bootstrap = async function () {
         lastName: "Perez",
         phone: "6391233212",
         gender: "femenino",
-        publicId: GuidService.generateGuid(),
+        publicId: await sails.helpers.generateGuid(),
         roles: [consejoRole.id, patrocinadorRole.id],
       },
     ]);

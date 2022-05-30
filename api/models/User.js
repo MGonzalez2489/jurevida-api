@@ -48,6 +48,20 @@ module.exports = {
       type: "string",
       required: false,
     },
+    firstLogin: {
+      type: "boolean",
+      required: false,
+      defaultsTo: true,
+      description:
+        "When one user is created, they must to change the password on the first login",
+    },
+    resetPasswordToken: {
+      type: "string",
+      required: false,
+      allowNull: true,
+      description:
+        "This value is used when the user request a reset password workflow",
+    },
     roles: {
       collection: "Role",
       via: "users",

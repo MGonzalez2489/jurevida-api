@@ -87,9 +87,8 @@ module.exports.models = {
       "deletedBy",
     ]);
   },
-  beforeCreate: function (valuesToSet, proceed) {
-    //valuesToSet.guid = ApiService.generateGuid();
-    valuesToSet.publicId = GuidService.generateGuid();
+  beforeCreate: async function (valuesToSet, proceed) {
+    valuesToSet.publicId = await sails.helpers.generateGuid();
     return proceed();
   },
 
