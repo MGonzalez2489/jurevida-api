@@ -1,26 +1,26 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 module.exports = {
-  friendlyName: "Generate new jwt token",
+  friendlyName: 'Generate new jwt token',
 
-  description: "",
+  description: '',
 
   inputs: {
     token: {
-      type: "string",
+      type: 'string',
       required: true,
     },
   },
 
   exits: {
     success: {
-      description: "All done.",
+      description: 'All done.',
     },
   },
 
   fn: async function (inputs) {
     const secret = sails.config.custom.jwtSecret || process.env.JWT_SECRET;
 
-    const result = jwt.verify(inputs.token,secret);
+    const result = jwt.verify(inputs.token, secret);
     return result;
   },
 };

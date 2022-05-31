@@ -18,8 +18,8 @@ module.exports.policies = {
 
   // '*': true,
 
-  "*": ["LogRequest"],
+  '*': ['LogRequest'],
   //Users: {
-    //"*": ["LogRequest", "AccessRequest"],
+  //"*": ["LogRequest", "AccessRequest"],
   //},
 };

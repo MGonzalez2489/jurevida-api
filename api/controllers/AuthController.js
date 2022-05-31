@@ -8,14 +8,14 @@
 module.exports = {
   logIn: async function (req, res) {
     const { email, password } = req.allParams();
-    const badRequestResponse = "El usuario o la contrasena no son correctos.";
+    const badRequestResponse = 'El usuario o la contrasena no son correctos.';
 
     if (!email) {
-      return res.badRequest("El email es requerido para la autenticacion.");
+      return res.badRequest('El email es requerido para la autenticacion.');
     }
     if (!password) {
       return res.badRequest(
-        "La contrasena es requerida para la autenticación.)"
+        'La contrasena es requerida para la autenticación.)'
       );
     }
 
@@ -42,7 +42,7 @@ module.exports = {
     };
 
     req.session[existingUser.id] = newToken;
-    console.log("session", req.session);
+    console.log('session', req.session);
 
     return ApiService.response(res, loginResponse);
   },

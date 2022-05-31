@@ -5,7 +5,7 @@
   // A set of basic code conventions designed to encourage quality and consistency
   // across your Sails app's code base.  These rules are checked against
   // automatically any time you run `npm test`.
-  // 
+  //
   // > An additional eslintrc override file is included in the `assets/` folder
   // > right out of the box.  This is specifically to allow for variations in acceptable
   // > global variables between front-end JavaScript code designed to run in the browser
@@ -50,7 +50,7 @@
     "eqeqeq":                       ["error", "always"],
     "eol-last":                     ["warn"],
     "handle-callback-err":          ["error"],
-    "indent":                       ["warn", 2, {
+    "indent":                       ["error", 2, {
       "SwitchCase": 1,
       "MemberExpression": "off",
       "FunctionDeclaration": {"body":1, "parameters":"off"},

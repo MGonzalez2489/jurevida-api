@@ -11,7 +11,7 @@
 
 module.exports.bootstrap = async function () {
   const existingRoles = await generateRoles();
-  const existingUsers = generateUsers(existingRoles);
+  await generateUsers(existingRoles);
 
   async function generateRoles() {
     let existingRoles = await Role.find();
@@ -35,61 +35,61 @@ module.exports.bootstrap = async function () {
 
   async function generateUsers(roles) {
     let existingUsers = await User.find();
-    const rootRole = roles.find((r) => r.name == "root");
-    const administradorRole = roles.find((r) => r.name == "administrador");
-    const consejoRole = roles.find((r) => r.name == "consejo");
-    const patrocinadorRole = roles.find((r) => r.name == "patrocinador");
+    const rootRole = roles.find((r) => r.name === 'root');
+    const administradorRole = roles.find((r) => r.name === 'administrador');
+    const consejoRole = roles.find((r) => r.name === 'consejo');
+    const patrocinadorRole = roles.find((r) => r.name === 'patrocinador');
 
-    if (existingUsers.length == 0) {
-      const gralPassword = await EncriptService.encriptString("12345");
+    if (existingUsers.length === 0) {
+      const gralPassword = await EncriptService.encriptString('12345');
       await User.createEach([
         {
-          email: "admin@test.com",
+          email: 'admin@test.com',
           password: gralPassword,
-          firstName: "Lola",
-          lastName: "Perez",
-          phone: "6391233212",
-          gender: "femenino",
+          firstName: 'Lola',
+          lastName: 'Perez',
+          phone: '6391233212',
+          gender: 'femenino',
           publicId: await sails.helpers.generateGuid(),
           roles: [rootRole.id],
         },
         {
-          email: "test2@test.com",
+          email: 'test2@test.com',
           password: gralPassword,
-          firstName: "Lola",
-          lastName: "Perez",
-          phone: "6391233212",
-          gender: "femenino",
+          firstName: 'Lola',
+          lastName: 'Perez',
+          phone: '6391233212',
+          gender: 'femenino',
           publicId: await sails.helpers.generateGuid(),
           roles: [administradorRole.id],
         },
         {
-          email: "test3@test.com",
+          email: 'test3@test.com',
           password: gralPassword,
-          firstName: "Lola",
-          lastName: "Perez",
-          phone: "6391233212",
-          gender: "femenino",
+          firstName: 'Lola',
+          lastName: 'Perez',
+          phone: '6391233212',
+          gender: 'femenino',
           publicId: await sails.helpers.generateGuid(),
           roles: [consejoRole.id],
         },
         {
-          email: "test4@test.com",
+          email: 'test4@test.com',
           password: gralPassword,
-          firstName: "Lola",
-          lastName: "Perez",
-          phone: "6391233212",
-          gender: "femenino",
+          firstName: 'Lola',
+          lastName: 'Perez',
+          phone: '6391233212',
+          gender: 'femenino',
           publicId: await sails.helpers.generateGuid(),
           roles: [patrocinadorRole.id],
         },
         {
-          email: "test5@test.com",
+          email: 'test5@test.com',
           password: gralPassword,
-          firstName: "Lola",
-          lastName: "Perez",
-          phone: "6391233212",
-          gender: "femenino",
+          firstName: 'Lola',
+          lastName: 'Perez',
+          phone: '6391233212',
+          gender: 'femenino',
           publicId: await sails.helpers.generateGuid(),
           roles: [consejoRole.id, patrocinadorRole.id],
         },

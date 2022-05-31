@@ -16,14 +16,14 @@ module.exports = {
     paginateOptions
   ) {
     var paginate = {
-      page: req.param("page") || paginateOptions["page"] || 1,
-      perPage: req.param("perPage") || paginateOptions["perPage"] || 10,
-      orderBy: req.param("orderBy") || paginateOptions["orderBy"] || "id",
-      orderDir: req.param("orderDir") || paginateOptions["orderDir"] || "asc",
+      page: req.param('page') || paginateOptions['page'] || 1,
+      perPage: req.param('perPage') || paginateOptions['perPage'] || 10,
+      orderBy: req.param('orderBy') || paginateOptions['orderBy'] || 'id',
+      orderDir: req.param('orderDir') || paginateOptions['orderDir'] || 'asc',
     };
 
     var skip = (paginate.page - 1) * paginate.perPage;
-    var sort = paginate.orderBy + " " + paginate.orderDir;
+    var sort = paginate.orderBy + ' ' + paginate.orderDir;
 
     var result = await model.find({
       where: criteria,
@@ -53,14 +53,14 @@ module.exports = {
     paginateOptions
   ) {
     var paginate = {
-      page: req.param("page") || paginateOptions["page"] || 1,
-      perPage: req.param("perPage") || paginateOptions["perPage"] || 10,
-      orderBy: req.param("orderBy") || paginateOptions["orderBy"] || "id",
-      orderDir: req.param("orderDir") || paginateOptions["orderDir"] || "asc",
+      page: req.param('page') || paginateOptions['page'] || 1,
+      perPage: req.param('perPage') || paginateOptions['perPage'] || 10,
+      orderBy: req.param('orderBy') || paginateOptions['orderBy'] || 'id',
+      orderDir: req.param('orderDir') || paginateOptions['orderDir'] || 'asc',
     };
 
     var skip = (paginate.page - 1) * paginate.perPage;
-    var sort = paginate.orderBy + " " + paginate.orderDir;
+    var sort = paginate.orderBy + ' ' + paginate.orderDir;
 
     var result = await model
       .find({

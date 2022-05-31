@@ -8,20 +8,20 @@
 module.exports = {
   attributes: {
     name: {
-      type: "string",
+      type: 'string',
       protect: true,
-      example: "consejo",
+      example: 'consejo',
       required: true,
     },
     displayName: {
-      type: "string",
+      type: 'string',
       protect: true,
-      example: "Consejo",
+      example: 'Consejo',
       required: true,
     },
     users: {
-      collection: "User",
-      via: "roles",
+      collection: 'User',
+      via: 'roles',
     },
     createdAt: false,
     createdBy: false,

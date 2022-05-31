@@ -8,12 +8,12 @@
 module.exports = {
   attributes: {
     key: {
-      type: "string",
+      type: 'string',
       required: true,
       unique: true,
     },
     value: {
-      type: "string",
+      type: 'string',
       required: true,
     },
     publicId: false,

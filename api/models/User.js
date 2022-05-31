@@ -8,63 +8,63 @@
 module.exports = {
   attributes: {
     email: {
-      type: "string",
-      description: "Email e identificador unico del usuario.",
+      type: 'string',
+      description: 'Email e identificador unico del usuario.',
       required: true,
       unique: true,
       isEmail: true,
       maxLength: 200,
-      example: "carol.test@example.com",
+      example: 'carol.test@example.com',
     },
     password: {
-      type: "string",
+      type: 'string',
       protect: true,
-      example: "2$28a8eabna301089103-13948134nad",
+      example: '2$28a8eabna301089103-13948134nad',
     },
     firstName: {
-      type: "string",
+      type: 'string',
       required: true,
       maxLength: 120,
-      example: "Alejandra",
+      example: 'Alejandra',
     },
     lastName: {
-      type: "string",
+      type: 'string',
       required: true,
       maxLength: 120,
-      example: "Gonzalez",
+      example: 'Gonzalez',
     },
     phone: {
-      type: "string",
+      type: 'string',
       required: true,
-      example: "6147894512",
+      example: '6147894512',
     },
     gender: {
-      type: "string",
+      type: 'string',
       required: true,
-      example: "masculino",
-      isIn: ["masculino", "femenino"],
+      example: 'masculino',
+      isIn: ['masculino', 'femenino'],
     },
     address: {
-      type: "string",
+      type: 'string',
       required: false,
     },
     firstLogin: {
-      type: "boolean",
+      type: 'boolean',
       required: false,
       defaultsTo: true,
       description:
-        "When one user is created, they must to change the password on the first login",
+        'When one user is created, they must to change the password on the first login',
     },
     resetPasswordToken: {
-      type: "string",
+      type: 'string',
       required: false,
       allowNull: true,
       description:
-        "This value is used when the user request a reset password workflow",
+        'This value is used when the user request a reset password workflow',
     },
     roles: {
-      collection: "Role",
-      via: "users",
+      collection: 'Role',
+      via: 'users',
     },
   },
   beforeCreate: async function (valuesToSet, proceed) {
@@ -76,31 +76,31 @@ module.exports = {
   },
   customToJSON: function () {
     return _.omit(this, [
-      "id",
-      "createdAt",
-      "createdBy",
-      "updatedAt",
-      "updatedBy",
-      "deletedAt",
-      "deletedBy",
-      "password",
+      'id',
+      'createdAt',
+      'createdBy',
+      'updatedAt',
+      'updatedBy',
+      'deletedAt',
+      'deletedBy',
+      'password',
     ]);
   },
   generateModelFromRequest: async function (req) {
     const newUser = req.body;
     newUser.firstLogin = true;
-    newUser.publicId = "guid";
+    newUser.publicId = 'guid';
     return newUser;
   },
   validateNewUser: async function (newUser) {
     if (!newUser.firstName) {
-      return "Nombre de usuario es requerido.";
+      return 'Nombre de usuario es requerido.';
     }
     if (!newUser.lastName) {
-      return "Apellido de usuario es requerido.";
+      return 'Apellido de usuario es requerido.';
     }
     if (newUser.roles.length < 1) {
-      return "Al menos un rol es requerido para el usuario.";
+      return 'Al menos un rol es requerido para el usuario.';
     }
 
     return null;

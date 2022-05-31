@@ -18,13 +18,13 @@ module.exports.routes = {
    *                                                                          *
    ***************************************************************************/
 
-  "/": { view: "pages/homepage" },
+  '/': { view: 'pages/homepage' },
 
-  "POST /auth/login": "AuthController.logIn",
+  'POST /auth/login': 'AuthController.logIn',
 
-  "GET /roles": "RolesController.getAll",
-  "GET /users": "UsersController.getAll",
-  "POST /users": "UsersController.postUser",
+  'GET /roles': 'RolesController.getAll',
+  'GET /users': 'UsersController.getAll',
+  'POST /users': 'UsersController.postUser',
 
   /***************************************************************************
    *                                                                          *

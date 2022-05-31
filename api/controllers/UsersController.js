@@ -13,7 +13,7 @@ module.exports = {
       res,
       User,
       query,
-      "roles",
+      'roles',
       {}
     );
   },
