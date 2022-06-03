@@ -46,4 +46,9 @@ module.exports = {
 
     return ApiService.response(res, loginResponse);
   },
+  validateToken: async function (req, res) {
+    const { token } = req.allParams();
+    const isValid = await sails.helpers.validateToken(token);
+    return res.send(isValid);
+  },
 };

@@ -10,17 +10,26 @@ module.exports = {
       required: true,
     },
   },
-
   exits: {
     success: {
-      description: 'All done.',
+      description: 'Valid Token.',
+    },
+    fail: {
+      description: 'Invalid Token.',
     },
   },
 
   fn: async function (inputs) {
     const secret = sails.config.custom.jwtSecret || process.env.JWT_SECRET;
 
-    const result = jwt.verify(inputs.token, secret);
-    return result;
+    try {
+      const res = await jwt.verify(inputs.token, secret);
+      console.log('res', res);
+
+      return true;
+    } catch (e) {
+      console.log('e', e);
+      return false;
+    }
   },
 };

@@ -41,11 +41,10 @@ module.exports.bootstrap = async function () {
     const patrocinadorRole = roles.find((r) => r.name === 'patrocinador');
 
     if (existingUsers.length === 0) {
-      const gralPassword = await EncriptService.encriptString('12345');
       await User.createEach([
         {
           email: 'admin@test.com',
-          password: gralPassword,
+          password: '12345',
           firstName: 'Lola',
           lastName: 'Perez',
           phone: '6391233212',
@@ -55,7 +54,7 @@ module.exports.bootstrap = async function () {
         },
         {
           email: 'test2@test.com',
-          password: gralPassword,
+          password: '12345',
           firstName: 'Lola',
           lastName: 'Perez',
           phone: '6391233212',
@@ -65,7 +64,7 @@ module.exports.bootstrap = async function () {
         },
         {
           email: 'test3@test.com',
-          password: gralPassword,
+          password: '12345',
           firstName: 'Lola',
           lastName: 'Perez',
           phone: '6391233212',
@@ -75,7 +74,7 @@ module.exports.bootstrap = async function () {
         },
         {
           email: 'test4@test.com',
-          password: gralPassword,
+          password: '12345',
           firstName: 'Lola',
           lastName: 'Perez',
           phone: '6391233212',
@@ -85,7 +84,7 @@ module.exports.bootstrap = async function () {
         },
         {
           email: 'test5@test.com',
-          password: gralPassword,
+          password: '12345',
           firstName: 'Lola',
           lastName: 'Perez',
           phone: '6391233212',

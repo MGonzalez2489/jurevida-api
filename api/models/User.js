@@ -90,9 +90,15 @@ module.exports = {
     const newUser = req.body;
     newUser.firstLogin = true;
     newUser.publicId = 'guid';
+
+    const newPassword = Math.random().toString(36).slice(-8);
+    newUser.password = newPassword;
+
     return newUser;
   },
   validateNewUser: async function (newUser) {
+    console.log('validating', newUser);
+
     if (!newUser.firstName) {
       return 'Nombre de usuario es requerido.';
     }

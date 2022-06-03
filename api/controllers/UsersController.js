@@ -18,9 +18,9 @@ module.exports = {
     );
   },
   postUser: async function (req, res) {
-    const newUser = User.generateModelFromRequest(req);
+    const newUser = await User.generateModelFromRequest(req);
 
-    const existValidation = User.validateNewUser(newUser);
+    const existValidation = await User.validateNewUser(newUser);
 
     if (existValidation) {
       return res.badRequest(existValidation);
