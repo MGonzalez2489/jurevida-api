@@ -7,7 +7,10 @@
 
 module.exports = {
   getAll: async function (req, res) {
-    const query = {};
+    const query = {
+      deletedAt: '',
+      deletedBy: '',
+    };
     return ApiService.paginatePopulatedResponse(
       req,
       res,
@@ -17,7 +20,17 @@ module.exports = {
       {}
     );
   },
+  getOne: async function (req, res) {
+    const { publicId } = req.allParams();
+    const query = {
+      publicId,
+    };
+    const user = await User.findOne(query);
+    return ApiService.response(res, user);
+  },
+
   postUser: async function (req, res) {
+    //const newUser = await User.generateModelFromRequet(req);
     const newUser = await User.generateModelFromRequest(req);
 
     const existValidation = await User.validateNewUser(newUser);
@@ -26,8 +39,7 @@ module.exports = {
       return res.badRequest(existValidation);
     }
 
-    const newPassword = Math.random().toString(36).slice(-8);
-    newUser.password = newPassword;
+    //newUser.password = await sails.helpers.generatePassword();
 
     const resNewUser = await User.create(newUser).fetch();
 

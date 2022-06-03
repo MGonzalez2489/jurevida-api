@@ -24,6 +24,8 @@ module.exports.routes = {
   'GET /auth/validateToken': 'AuthController.validateToken',
 
   'GET /roles': 'RolesController.getAll',
+
+  'GET /users/:publicId': 'UsersController.getOne',
   'GET /users': 'UsersController.getAll',
   'POST /users': 'UsersController.postUser',
 

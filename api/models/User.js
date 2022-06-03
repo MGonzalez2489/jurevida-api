@@ -84,6 +84,7 @@ module.exports = {
       'deletedAt',
       'deletedBy',
       'password',
+      'resetPasswordToken',
     ]);
   },
   generateModelFromRequest: async function (req) {
@@ -91,14 +92,19 @@ module.exports = {
     newUser.firstLogin = true;
     newUser.publicId = 'guid';
 
-    const newPassword = Math.random().toString(36).slice(-8);
-    newUser.password = newPassword;
+    const rolesIds = await Role.find({
+      where: { name: { in: newUser.roles } },
+    });
+
+    newUser.roles = rolesIds.map((f) => f.id);
+
+    if (newUser.address === '' || newUser.address === null) {
+      delete newUser.address;
+    }
 
     return newUser;
   },
   validateNewUser: async function (newUser) {
-    console.log('validating', newUser);
-
     if (!newUser.firstName) {
       return 'Nombre de usuario es requerido.';
     }
