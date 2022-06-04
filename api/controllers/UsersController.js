@@ -11,27 +11,25 @@ module.exports = {
       deletedAt: '',
       deletedBy: '',
     };
-    return ApiService.paginatePopulatedResponse(
-      req,
-      res,
-      User,
-      query,
-      'roles',
-      {}
-    );
+    let results = await User.find(query).populate('roles');
+
+    results = results.filter((f) => {
+      return !f.roles.some((p) => p.name === 'root');
+    });
+
+    return ApiService.paginateCollection(req, res, results, null);
   },
   getOne: async function (req, res) {
     const { publicId } = req.allParams();
     const query = {
       publicId,
     };
-    const user = await User.findOne(query);
+    const user = await User.findOne(query).populate('roles');
     return ApiService.response(res, user);
   },
 
   postUser: async function (req, res) {
-    //const newUser = await User.generateModelFromRequet(req);
-    const newUser = await User.generateModelFromRequest(req);
+    const newUser = await User.generateModelNewUser(req);
 
     const existValidation = await User.validateNewUser(newUser);
 
@@ -39,7 +37,7 @@ module.exports = {
       return res.badRequest(existValidation);
     }
 
-    //newUser.password = await sails.helpers.generatePassword();
+    newUser.password = await sails.helpers.generatePassword();
 
     const resNewUser = await User.create(newUser).fetch();
 
@@ -47,5 +45,14 @@ module.exports = {
     //de la cuenta e incluir la contrasena a ser cambiada
 
     return ApiService.response(res, resNewUser);
+  },
+  putUser: async function (req, res) {
+    const { publicId } = req.allParams();
+    const userToUpdate = await User.generateModelExistingUser(req);
+    const updatedUser = await User.update({ publicId: publicId })
+      .set(userToUpdate)
+      .fetch();
+
+    return ApiService.response(res, updatedUser);
   },
 };

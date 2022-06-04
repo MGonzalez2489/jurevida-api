@@ -87,7 +87,7 @@ module.exports = {
       'resetPasswordToken',
     ]);
   },
-  generateModelFromRequest: async function (req) {
+  generateModelNewUser: async function (req) {
     const newUser = req.body;
     newUser.firstLogin = true;
     newUser.publicId = 'guid';
@@ -104,6 +104,22 @@ module.exports = {
 
     return newUser;
   },
+  generateModelExistingUser: async function (req) {
+    const newUser = req.body;
+
+    const rolesIds = await Role.find({
+      where: { name: { in: newUser.roles } },
+    });
+
+    newUser.roles = rolesIds.map((f) => f.id);
+
+    if (newUser.address === '' || newUser.address === null) {
+      delete newUser.address;
+    }
+
+    return newUser;
+  },
+
   validateNewUser: async function (newUser) {
     if (!newUser.firstName) {
       return 'Nombre de usuario es requerido.';

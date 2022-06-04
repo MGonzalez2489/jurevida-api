@@ -28,6 +28,7 @@ module.exports.routes = {
   'GET /users/:publicId': 'UsersController.getOne',
   'GET /users': 'UsersController.getAll',
   'POST /users': 'UsersController.postUser',
+  'PUT /users/:publicId': 'UsersController.putUser',
 
   /***************************************************************************
    *                                                                          *
