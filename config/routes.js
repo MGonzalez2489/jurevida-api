@@ -29,6 +29,7 @@ module.exports.routes = {
   'GET /users': 'UsersController.getAll',
   'POST /users': 'UsersController.postUser',
   'PUT /users/:publicId': 'UsersController.putUser',
+  'DELETE /users/:publicId': 'UsersController.deleteUser',
 
   /***************************************************************************
    *                                                                          *

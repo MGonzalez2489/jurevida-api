@@ -14,7 +14,9 @@ module.exports = {
     let results = await User.find(query).populate('roles');
 
     results = results.filter((f) => {
-      return !f.roles.some((p) => p.name === 'root');
+      return !f.roles.some(
+        (p) => p.name === 'root' || p.name === 'administrador'
+      );
     });
 
     return ApiService.paginateCollection(req, res, results, null);
@@ -49,10 +51,21 @@ module.exports = {
   putUser: async function (req, res) {
     const { publicId } = req.allParams();
     const userToUpdate = await User.generateModelExistingUser(req);
-    const updatedUser = await User.update({ publicId: publicId })
+    let updatedUser = await User.update({ publicId: publicId })
       .set(userToUpdate)
       .fetch();
 
-    return ApiService.response(res, updatedUser);
+    return ApiService.response(res, updatedUser[0]);
+  },
+  deleteUser: async function (req, res) {
+    const { publicId } = req.allParams();
+    const deletedUser = await User.update({ publicId })
+      .set({
+        deletedAt: new Date().toISOString(),
+        deletedBy: 'correoDeQuienElimina@test.com',
+      })
+      .fetch();
+
+    return ApiService.response(res, deletedUser[0]);
   },
 };
