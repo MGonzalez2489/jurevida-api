@@ -31,6 +31,8 @@ module.exports.routes = {
   'PUT /users/:publicId': 'UsersController.putUser',
   'DELETE /users/:publicId': 'UsersController.deleteUser',
 
+  'PUT /resetPassword/:publicId': 'PasswordController.resetPassword',
+
   /***************************************************************************
    *                                                                          *
    * More custom routes here...                                               *
