@@ -7,10 +7,25 @@
 
 module.exports = {
   getAll: async function (req, res) {
-    const query = {
+    const { keyword } = req.allParams();
+    let query = {
       deletedAt: '',
       deletedBy: '',
     };
+
+    if (keyword || keyword !== '') {
+      query = {
+        deletedAt: '',
+        deletedBy: '',
+        or: [
+          { email: { contains: keyword } },
+          { firstName: { contains: keyword } },
+          { lastName: { contains: keyword } },
+          { phone: { contains: keyword } },
+        ],
+      };
+    }
+
     let results = await User.find(query).populate('roles');
 
     results = results.filter((f) => {

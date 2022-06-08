@@ -19,7 +19,7 @@ module.exports = {
       page: req.param('page') || defaults['page'] || 1,
       perPage: req.param('perPage') || defaults['perPage'] || 10,
       orderBy: req.param('orderBy') || defaults['orderBy'] || 'id',
-      orderDir: req.param('orderDir') || defaults['order_dir'] || 'asc',
+      orderDir: req.param('orderDir') || defaults['orderDir'] || 'asc',
     };
 
     if (typeof params.page === 'string') {
@@ -29,10 +29,10 @@ module.exports = {
       params.perPage = parseInt(params.perPage);
     }
 
-    const sortedCollection = _.sortBy(collection, function (item) {
+    let sortedCollection = _.sortBy(collection, function (item) {
       return item[params.orderBy];
     });
-    if (params.order_dir === 'desc') {
+    if (params.orderDir === 'desc') {
       sortedCollection = sortedCollection.reverse();
     }
 

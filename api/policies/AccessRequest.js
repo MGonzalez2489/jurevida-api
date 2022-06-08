@@ -7,8 +7,11 @@ module.exports = async function (req, res, next) {
   reqToken = reqToken.toString().replace('Bearer', '').trim();
   try {
     const result = await sails.helpers.validateToken(reqToken);
-    if (!result) send401();
-    else next();
+    if (!result) {
+      send401();
+    } else {
+      next();
+    }
   } catch {
     send401();
   }

@@ -24,8 +24,6 @@ module.exports = {
 
     try {
       const res = await jwt.verify(inputs.token, secret);
-      console.log('res', res);
-
       return true;
     } catch (e) {
       console.log('e', e);

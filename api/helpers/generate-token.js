@@ -25,7 +25,7 @@ module.exports = {
 
     const secret = sails.config.custom.jwtSecret || process.env.JWT_SECRET;
 
-    const token = jwt.sign({ data: payload }, secret, { expiresIn: '1m' });
+    const token = jwt.sign({ data: payload }, secret, { expiresIn: '1d' });
 
     return token;
   },
