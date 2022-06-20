@@ -19,7 +19,11 @@ module.exports = {
       );
     }
 
-    const existingUser = await User.findOne({ email: email });
+    const existingUser = await User.findOne({
+      email: email,
+      deletedBy: '',
+      deletedAt: '',
+    });
 
     if (!existingUser) {
       return res.badRequest(badRequestResponse);
@@ -41,9 +45,7 @@ module.exports = {
       token: newToken,
     };
 
-    req.session[existingUser.id] = newToken;
-    console.log('session', req.session);
-
+    await AccessToken.validateAndCreate(newToken, existingUser.id);
     return ApiService.response(res, loginResponse);
   },
   validateToken: async function (req, res) {

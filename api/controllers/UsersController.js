@@ -40,13 +40,20 @@ module.exports = {
     const { publicId } = req.allParams();
     const query = {
       publicId,
+      deletedAt: '',
+      deletedBy: '',
     };
     const user = await User.findOne(query).populate('roles');
     return ApiService.response(res, user);
   },
-
   postUser: async function (req, res) {
     const newUser = await User.generateModelNewUser(req);
+
+    const usedEmail = await User.findOne({ email: newUser.email });
+
+    if (usedEmail) {
+      return res.badRequest(`La cuenta de correo ya se encuentra registrada`);
+    }
 
     const existValidation = await User.validateNewUser(newUser);
 
@@ -74,10 +81,11 @@ module.exports = {
   },
   deleteUser: async function (req, res) {
     const { publicId } = req.allParams();
+    const user = req.session.user;
     const deletedUser = await User.update({ publicId })
       .set({
         deletedAt: new Date().toISOString(),
-        deletedBy: 'correoDeQuienElimina@test.com',
+        deletedBy: user.email,
       })
       .fetch();
 

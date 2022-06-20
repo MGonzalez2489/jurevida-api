@@ -31,7 +31,14 @@ module.exports.routes = {
   'PUT /users/:publicId': 'UsersController.putUser',
   'DELETE /users/:publicId': 'UsersController.deleteUser',
 
+  //Contributions
+  'POST /users/:publicId/council/contribution': 'ContributionController.create',
+  'GET /users/council/contribution': 'ContributionController.getAll',
+
   'PUT /resetPassword/:publicId': 'PasswordController.resetPassword',
+  // Associates
+  'GET /associates': 'AssociatesController.getAll',
+  'GET /associates/:publicId': 'AssociatesController.getOne',
 
   /***************************************************************************
    *                                                                          *

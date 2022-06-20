@@ -20,6 +20,6 @@ module.exports.policies = {
 
   '*': ['LogRequest'],
   UsersController: {
-    '*': ['LogRequest', 'AccessRequest'],
+    '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
   },
 };

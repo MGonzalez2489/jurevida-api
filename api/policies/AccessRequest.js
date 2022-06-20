@@ -1,6 +1,7 @@
 module.exports = async function (req, res, next) {
   let reqToken = req.headers.authorization;
   if (!reqToken) {
+    console.log(1);
     send401();
     return;
   }
@@ -8,11 +9,13 @@ module.exports = async function (req, res, next) {
   try {
     const result = await sails.helpers.validateToken(reqToken);
     if (!result) {
+      console.log(2);
       send401();
     } else {
       next();
     }
   } catch {
+    console.log(3);
     send401();
   }
 

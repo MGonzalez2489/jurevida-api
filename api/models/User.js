@@ -66,6 +66,18 @@ module.exports = {
       collection: 'Role',
       via: 'users',
     },
+    nickName: {
+      type: 'string',
+      allowNull: true,
+    },
+    useNickName: {
+      type: 'boolean',
+      defaultsTo: false,
+    },
+    contributions: {
+      collection: 'Contribution',
+      via: 'user',
+    },
   },
   beforeCreate: async function (valuesToSet, proceed) {
     valuesToSet.publicId = await sails.helpers.generateGuid();
@@ -101,6 +113,7 @@ module.exports = {
     if (newUser.address === '' || newUser.address === null) {
       delete newUser.address;
     }
+    newUser.createdBy = req.session.user.email;
 
     return newUser;
   },
@@ -116,6 +129,7 @@ module.exports = {
     if (newUser.address === '' || newUser.address === null) {
       delete newUser.address;
     }
+    newUser.updatedBy = req.session.user.email;
 
     return newUser;
   },
