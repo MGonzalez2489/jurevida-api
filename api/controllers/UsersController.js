@@ -7,34 +7,64 @@
 
 module.exports = {
   getAll: async function (req, res) {
-    const { keyword } = req.allParams();
+    const { keyword, profile } = req.allParams();
     let query = {
       deletedAt: '',
       deletedBy: '',
     };
 
-    if (keyword || keyword !== '') {
-      query = {
-        deletedAt: '',
-        deletedBy: '',
-        or: [
-          { email: { contains: keyword } },
-          { firstName: { contains: keyword } },
-          { lastName: { contains: keyword } },
-          { phone: { contains: keyword } },
-        ],
-      };
+    if (keyword && keyword !== '') {
+      query.or = [
+        { email: { contains: keyword } },
+        { firstName: { contains: keyword } },
+        { lastName: { contains: keyword } },
+        { phone: { contains: keyword } },
+      ];
+    }
+    if (profile && profile !== '' && profile !== 'todos') {
+      if (profile === 'consejo') {
+        query.council = { '!=': null };
+      }
+      if (profile === 'patrocinador') {
+        query.sponsor = { '!=': null };
+      }
+
+      if (profile === 'asociado') {
+        query.associated = { '!=': null };
+      }
     }
 
-    let results = await User.find(query).populate('roles');
+    return ApiService.paginateResponse(req, res, User, query, {});
+    //return ApiService.paginatePopulatedResponse(
+    //req,
+    //res,
+    //User,
+    //query,
+    //null,
+    //{}
+    //);
+    //if (keyword || keyword !== '') {
+    //query = {
+    //deletedAt: '',
+    //deletedBy: '',
+    //or: [
+    //{ email: { contains: keyword } },
+    //{ firstName: { contains: keyword } },
+    //{ lastName: { contains: keyword } },
+    //{ phone: { contains: keyword } },
+    //],
+    //};
+    //}
 
-    results = results.filter((f) => {
-      return !f.roles.some(
-        (p) => p.name === 'root' || p.name === 'administrador'
-      );
-    });
+    //let results = await User.find(query).populate('roles');
 
-    return ApiService.paginateCollection(req, res, results, null);
+    //results = results.filter((f) => {
+    //return !f.roles.some(
+    //(p) => p.name === 'root' || p.name === 'administrador'
+    //);
+    //});
+
+    //return ApiService.paginateCollection(req, res, results, null);
   },
   getOne: async function (req, res) {
     const { publicId } = req.allParams();

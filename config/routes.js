@@ -20,25 +20,22 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
 
+  //auth
   'POST /auth/login': 'AuthController.logIn',
   'GET /auth/validateToken': 'AuthController.validateToken',
 
-  'GET /roles': 'RolesController.getAll',
-
-  'GET /users/:publicId': 'UsersController.getOne',
+  //users
   'GET /users': 'UsersController.getAll',
-  'POST /users': 'UsersController.postUser',
-  'PUT /users/:publicId': 'UsersController.putUser',
-  'DELETE /users/:publicId': 'UsersController.deleteUser',
+
+  //'GET /users/:publicId': 'UsersController.getOne',
+  //'POST /users': 'UsersController.postUser',
+  //'PUT /users/:publicId': 'UsersController.putUser',
+  //'DELETE /users/:publicId': 'UsersController.deleteUser',
 
   //Contributions
-  'POST /users/:publicId/council/contribution': 'ContributionController.create',
-  'GET /users/council/contribution': 'ContributionController.getAll',
+  //'POST /users/:publicId/council/contribution': 'ContributionController.create',
 
-  'PUT /resetPassword/:publicId': 'PasswordController.resetPassword',
-  // Associates
-  'GET /associates': 'AssociatesController.getAll',
-  'GET /associates/:publicId': 'AssociatesController.getOne',
+  //'PUT /resetPassword/:publicId': 'PasswordController.resetPassword',
 
   /***************************************************************************
    *                                                                          *
