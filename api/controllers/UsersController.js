@@ -76,6 +76,51 @@ module.exports = {
     const user = await User.findOne(query).populate('roles');
     return ApiService.response(res, user);
   },
+  postCouncil: async function (req, res) {
+    const newUser = await User.generateModelNewUser(req);
+
+    const usedEmail = await User.findOne({ email: newUser.email });
+
+    if (usedEmail) {
+      return res.badRequest(`La cuenta de correo ya se encuentra registrada`);
+    }
+
+    const existValidation = await User.validateNewUser(newUser);
+
+    if (existValidation) {
+      return res.badRequest(existValidation);
+    }
+
+    newUser.password = await sails.helpers.generatePassword();
+
+    const newCouncil = _.clone(newUser.council);
+    delete newUser.council;
+
+    const contributions = _.clone(newCouncil.contributions);
+    delete newCouncil.contributions;
+
+    if (contributions === null || contributions.length === 0) {
+      return res.badRequest(
+        'Para registrar un miembro del consejo es necesario indicar una contribucion'
+      );
+    }
+
+    //actions
+    const resNewUser = await User.create(newUser).fetch();
+
+    const resNewCouncil = await CouncilProfile.create({
+      user: resNewUser.id,
+      publicId: '-',
+    }).fetch();
+    const resContribution = await Contribution.create({
+      contribution: contributions[0].contribution,
+      council: resNewCouncil.id,
+      publicId: '-',
+    }).fetch();
+
+    await User.update({ id: resNewUser.id }).set({ council: resNewCouncil.id });
+    return ApiService.response(res, newUser);
+  },
   postUser: async function (req, res) {
     const newUser = await User.generateModelNewUser(req);
 

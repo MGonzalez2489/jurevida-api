@@ -11,6 +11,10 @@ module.exports = {
       model: 'User',
       unique: true,
     },
+    contributions: {
+      collection: 'Contribution',
+      via: 'council',
+    },
   },
   beforeCreate: async function (valuesToSet, proceed) {
     valuesToSet.publicId = await sails.helpers.generateGuid();

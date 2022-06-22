@@ -28,7 +28,7 @@ module.exports.routes = {
   'GET /users': 'UsersController.getAll',
 
   //'GET /users/:publicId': 'UsersController.getOne',
-  //'POST /users': 'UsersController.postUser',
+  'POST /users/council': 'UsersController.postCouncil',
   //'PUT /users/:publicId': 'UsersController.putUser',
   //'DELETE /users/:publicId': 'UsersController.deleteUser',
 

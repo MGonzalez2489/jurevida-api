@@ -114,12 +114,6 @@ module.exports = {
     newUser.firstLogin = true;
     newUser.publicId = 'guid';
 
-    const rolesIds = await Role.find({
-      where: { name: { in: newUser.roles } },
-    });
-
-    newUser.roles = rolesIds.map((f) => f.id);
-
     if (newUser.address === '' || newUser.address === null) {
       delete newUser.address;
     }
@@ -150,9 +144,6 @@ module.exports = {
     }
     if (!newUser.lastName) {
       return 'Apellido de usuario es requerido.';
-    }
-    if (newUser.roles.length < 1) {
-      return 'Al menos un rol es requerido para el usuario.';
     }
 
     return null;
