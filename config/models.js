@@ -68,11 +68,16 @@ module.exports.models = {
     id: { type: 'number', autoIncrement: true },
     publicId: { type: 'string', required: true },
     createdAt: { type: 'string', autoCreatedAt: true },
-    createdBy: { type: 'string', required: false },
+    createdBy: { type: 'string', required: false, allowNull: true },
     updatedAt: { type: 'string', autoUpdatedAt: true },
-    updatedBy: { type: 'string', required: false },
-    deletedAt: { type: 'string', autoUpdatedAt: false },
-    deletedBy: { type: 'string', required: false },
+    updatedBy: { type: 'string', required: false, allowNull: true },
+    deletedAt: {
+      type: 'string',
+      autoUpdatedAt: false,
+      required: false,
+      allowNull: true,
+    },
+    deletedBy: { type: 'string', required: false, allowNull: true },
   },
   beforeCreate: async function (valuesToSet, proceed) {
     valuesToSet.publicId = await sails.helpers.generateGuid();

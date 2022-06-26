@@ -21,8 +21,8 @@ module.exports = {
 
     const existingUser = await User.findOne({
       email: email,
-      deletedBy: '',
-      deletedAt: '',
+      deletedBy: null,
+      deletedAt: null,
     });
 
     if (!existingUser) {
@@ -33,6 +33,7 @@ module.exports = {
       password,
       existingUser.password
     );
+
 
     if (!isValidPassword) {
       return res.badRequest(badRequestResponse);

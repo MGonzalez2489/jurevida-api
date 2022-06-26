@@ -27,13 +27,22 @@ module.exports.routes = {
   //users
   'GET /users': 'UsersController.getAll',
 
-  //'GET /users/:publicId': 'UsersController.getOne',
-  'POST /users/council': 'UsersController.postCouncil',
+  'GET /users/:publicId': 'UsersController.getOne',
+  //Users > Council
+  'GET /users/council': 'CouncilController.getAll',
+  'GET /users/:publicId/council': 'CouncilController.getOne',
+  'POST /users/council': 'CouncilController.create',
+  'PUT /users/:publicId/council': 'CouncilController.putUser',
+  // Users > Sponsor
+  'POST /users/sponsor': 'SponsorController.create',
+  // Users > associated
+  'GET /users/associates': 'AssociatedController.getAll',
   //'PUT /users/:publicId': 'UsersController.putUser',
   //'DELETE /users/:publicId': 'UsersController.deleteUser',
 
   //Contributions
-  //'POST /users/:publicId/council/contribution': 'ContributionController.create',
+  'POST /users/:publicId/council/contribution': 'ContributionController.create',
+  'DELETE /contribution/:publicId': 'ContributionController.delete',
 
   //'PUT /resetPassword/:publicId': 'PasswordController.resetPassword',
 

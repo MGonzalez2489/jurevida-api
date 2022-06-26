@@ -22,4 +22,13 @@ module.exports.policies = {
   UsersController: {
     '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
   },
+  CouncilController: {
+    '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
+  },
+  SponsorController: {
+    '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
+  },
+  ContributionController: {
+    '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
+  },
 };
