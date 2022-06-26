@@ -20,25 +20,31 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
 
+  //auth
   'POST /auth/login': 'AuthController.logIn',
   'GET /auth/validateToken': 'AuthController.validateToken',
 
-  'GET /roles': 'RolesController.getAll',
+  //users
+  'GET /users': 'UsersController.getAll',
 
   'GET /users/:publicId': 'UsersController.getOne',
-  'GET /users': 'UsersController.getAll',
-  'POST /users': 'UsersController.postUser',
-  'PUT /users/:publicId': 'UsersController.putUser',
-  'DELETE /users/:publicId': 'UsersController.deleteUser',
+  //Users > Council
+  'GET /users/council': 'CouncilController.getAll',
+  'GET /users/:publicId/council': 'CouncilController.getOne',
+  'POST /users/council': 'CouncilController.create',
+  'PUT /users/:publicId/council': 'CouncilController.putUser',
+  // Users > Sponsor
+  'POST /users/sponsor': 'SponsorController.create',
+  // Users > associated
+  'GET /users/associates': 'AssociatedController.getAll',
+  //'PUT /users/:publicId': 'UsersController.putUser',
+  //'DELETE /users/:publicId': 'UsersController.deleteUser',
 
   //Contributions
   'POST /users/:publicId/council/contribution': 'ContributionController.create',
-  'GET /users/council/contribution': 'ContributionController.getAll',
+  'DELETE /contribution/:publicId': 'ContributionController.delete',
 
-  'PUT /resetPassword/:publicId': 'PasswordController.resetPassword',
-  // Associates
-  'GET /associates': 'AssociatesController.getAll',
-  'GET /associates/:publicId': 'AssociatesController.getOne',
+  //'PUT /resetPassword/:publicId': 'PasswordController.resetPassword',
 
   /***************************************************************************
    *                                                                          *

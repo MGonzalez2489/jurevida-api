@@ -1,5 +1,5 @@
 /**
- * UsersController
+ * CouncilController
  *
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
@@ -7,13 +7,14 @@
 
 module.exports = {
   getAll: async function (req, res) {
-    const { keyword, profile } = req.allParams();
-    let query = {
+    const { keyword } = req.allParams();
+    const query = {
       deletedAt: null,
       deletedBy: null,
+      council: { '!=': null },
     };
 
-    if (keyword && keyword !== '') {
+    if (_.isNull(keyword) && keyword !== '') {
       query.or = [
         { email: { contains: keyword } },
         { firstName: { contains: keyword } },
@@ -21,35 +22,22 @@ module.exports = {
         { phone: { contains: keyword } },
       ];
     }
-    if (profile && profile !== '') {
-      query[profile] = { '!=': null };
-    }
 
     return ApiService.paginateResponse(req, res, User, query, {});
   },
+
   getOne: async function (req, res) {
     const { publicId } = req.allParams();
     const query = {
       publicId,
-      deletedAt: null,
-      deletedBy: null,
+      deletedAt: '',
+      deletedBy: '',
+      council: { '!=': null },
     };
-    const user = await User.findOne(query)
-      .populate('council')
-      .populate('sponsor')
-      .populate('associated');
-
-    if (user.council) {
-      user.council.contributions = await Contribution.find({
-        council: user.council.id,
-        deletedAt: null,
-        deletedBy: null,
-      }).sort('createdAt desc');
-    }
-
+    const user = await User.findOne(query).populate('council');
     return ApiService.response(res, user);
   },
-  postUser: async function (req, res) {
+  create: async function (req, res) {
     const newUser = await User.generateModelNewUser(req);
 
     const usedEmail = await User.findOne({ email: newUser.email });
@@ -66,12 +54,33 @@ module.exports = {
 
     newUser.password = await sails.helpers.generatePassword();
 
+    const newCouncil = _.clone(newUser.council);
+    delete newUser.council;
+
+    const contributions = _.clone(newCouncil.contributions);
+    delete newCouncil.contributions;
+
+    if (contributions === null || contributions.length === 0) {
+      return res.badRequest(
+        'Para registrar un miembro del consejo es necesario indicar una contribucion'
+      );
+    }
+
+    //actions
     const resNewUser = await User.create(newUser).fetch();
 
-    //aqui se envia el correo electronico para confirmar la creacion
-    //de la cuenta e incluir la contrasena a ser cambiada
+    const resNewCouncil = await CouncilProfile.create({
+      user: resNewUser.id,
+      publicId: '-',
+    }).fetch();
+    const resContribution = await Contribution.create({
+      contribution: contributions[0].contribution,
+      council: resNewCouncil.id,
+      publicId: '-',
+    }).fetch();
 
-    return ApiService.response(res, resNewUser);
+    await User.update({ id: resNewUser.id }).set({ council: resNewCouncil.id });
+    return ApiService.response(res, newUser);
   },
   putUser: async function (req, res) {
     const { publicId } = req.allParams();
@@ -81,17 +90,5 @@ module.exports = {
       .fetch();
 
     return ApiService.response(res, updatedUser[0]);
-  },
-  deleteUser: async function (req, res) {
-    const { publicId } = req.allParams();
-    const user = req.session.user;
-    const deletedUser = await User.update({ publicId })
-      .set({
-        deletedAt: new Date().toISOString(),
-        deletedBy: user.email,
-      })
-      .fetch();
-
-    return ApiService.response(res, deletedUser[0]);
   },
 };

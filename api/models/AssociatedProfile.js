@@ -1,5 +1,5 @@
 /**
- * Contribution.js
+ * AssociatedProfile.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -7,20 +7,26 @@
 
 module.exports = {
   attributes: {
-    contribution: { type: 'string', required: true },
-    council: {
-      model: 'CouncilProfile',
+    placeOfBirth: { type: 'string' },
+    rfc: { type: 'string' },
+    maritalStatus: { type: 'string' },
+    profession: { type: 'string' },
+    user: {
+      model: 'User',
+      unique: true,
     },
   },
-  customToJSON() {
+  customToJSON: function () {
     return _.omit(this, [
       'id',
+      'createdAt',
       'createdBy',
       'updatedAt',
       'updatedBy',
       'deletedAt',
       'deletedBy',
-      'council',
+      'password',
+      'user',
     ]);
   },
   beforeCreate: async function (valuesToSet, proceed) {

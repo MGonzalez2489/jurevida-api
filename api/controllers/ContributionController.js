@@ -6,35 +6,27 @@
  */
 
 module.exports = {
-  getAll: async function (req, res) {
-    const query = {
-      deletedAt: '',
-      deletedBy: '',
-    };
-
-    let users = await User.find().populate('roles').populate('contributions');
-
-    users = users.filter((f) => f.roles.some((g) => g.name === 'consejo'));
-    return ApiService.paginateCollection(req, res, users, {});
-  },
   create: async function (req, res) {
     const { publicId, contribution } = req.allParams();
-    const user = await User.findOne({ publicId }).populate('roles');
-
-    if (!user) {
-      return res.notFound('Usuario no encontrado');
-    }
-
-    if (!user.roles.some((f) => f.name === 'consejo')) {
-      return res.badRequest('El usuario no es parte del consejo');
-    }
+    const user = await User.findOne({ publicId }).populate('council');
 
     const newContribution = await Contribution.create({
       contribution: contribution,
-      user: user.id,
+      council: user.council.id,
       publicId: '-',
     }).fetch();
-
     return ApiService.response(res, newContribution);
+  },
+  delete: async function (req, res) {
+    const { publicId } = req.allParams();
+    const user = req.session.user;
+    await Contribution.update({ publicId: publicId })
+      .set({
+        deletedAt: new Date().toISOString(),
+        deletedBy: user.emai,
+      })
+      .fetch();
+
+    return ApiService.response(res, true);
   },
 };

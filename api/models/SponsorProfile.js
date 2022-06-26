@@ -1,5 +1,5 @@
 /**
- * Contribution.js
+ * SponsorProfile.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -7,21 +7,19 @@
 
 module.exports = {
   attributes: {
-    contribution: { type: 'string', required: true },
-    council: {
-      model: 'CouncilProfile',
+    nickName: {
+      type: 'string',
+      allowNull: true,
     },
-  },
-  customToJSON() {
-    return _.omit(this, [
-      'id',
-      'createdBy',
-      'updatedAt',
-      'updatedBy',
-      'deletedAt',
-      'deletedBy',
-      'council',
-    ]);
+
+    useNickName: {
+      type: 'boolean',
+      defaultsTo: false,
+    },
+    user: {
+      model: 'User',
+      unique: true,
+    },
   },
   beforeCreate: async function (valuesToSet, proceed) {
     valuesToSet.publicId = await sails.helpers.generateGuid();

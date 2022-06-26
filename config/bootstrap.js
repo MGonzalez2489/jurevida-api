@@ -10,152 +10,144 @@
  */
 
 module.exports.bootstrap = async function () {
-  await generateAssociates();
-  const existingRoles = await generateRoles();
-  await generateUsers(existingRoles);
+  generateUserData();
+  generateCouncilProfile();
+  generateSponsorProfile();
+  generateAssociatedProfile();
 
-  async function generateRoles() {
-    let existingRoles = await Role.find();
-    let availableRoles = sails.config.constants.ROLES;
-
-    if (existingRoles.length === 0) {
-      for (const index in availableRoles) {
-        const role = availableRoles[index];
-        let newRole = {
-          name: role,
-          displayName: role.charAt(0).toUpperCase() + role.slice(1),
-          publicId: await sails.helpers.generateGuid(),
-        };
-        await Role.create(newRole);
-      }
-    }
-
-    existingRoles = await Role.find();
-    return existingRoles;
+  async function generateUserData() {
+    await User.createEach([
+      {
+        id: 1,
+        publicId: 'ec0c91f2-06b1-4e1f-a357-fe13c5f559c8',
+        firstName: 'Admin',
+        lastName: 'testing',
+        email: 'admin@test.com',
+        password: '12345',
+        gender: 'masculino',
+        address: '435 Everett Plaza',
+        firstLogin: false,
+        avatar:
+          'https://robohash.org/recusandaererumvoluptas.png?size=800x800&set=set1',
+        phone: '2766097566',
+      },
+      {
+        id: 2,
+        publicId: await sails.helpers.generateGuid(),
+        firstName: 'Rosalva',
+        lastName: 'Avena Díaz',
+        email: 'rosalva.avena@uis.com.mx',
+        password: '12345',
+        gender: 'femenino',
+        address:
+          'Privada de Fresno 1506, Col. Las Granjas, Chihuahua, Chih. C.P. 31100',
+        firstLogin: true,
+        avatar: 'https://i.pravatar.cc/300?img=1',
+        phone: '6144271943',
+      },
+      {
+        id: 3,
+        publicId: await sails.helpers.generateGuid(),
+        firstName: 'Selene',
+        lastName: 'Mendoza Espino',
+        email: 'smendoza.congresoch@gmail.com',
+        password: '12345',
+        gender: 'femenino',
+        address: 'Calle 52 #5002, Col. Rosario, Chihuahua, Chih. C.P. 31030',
+        firstLogin: true,
+        avatar: 'https://i.pravatar.cc/300?img=2',
+        phone: '6141826885',
+      },
+      {
+        id: 4,
+        publicId: await sails.helpers.generateGuid(),
+        firstName: 'María de la Merced',
+        lastName: 'Velázquez Quintana',
+        email: 'merced.velazquez@uis.com.mx',
+        password: '12345',
+        gender: 'femenino',
+        address:
+          'Privada de Fresno 1506, Col. Las Granjas, Chihuahua, CHih. C.P. 31100',
+        firstLogin: true,
+        avatar: 'https://i.pravatar.cc/300?img=3',
+        phone: '6141423440',
+      },
+      {
+        id: 5,
+        publicId: await sails.helpers.generateGuid(),
+        firstName: 'Luis',
+        lastName: 'Villegas Montes',
+        email: 'luvimo6608@gmail.com',
+        password: '12345',
+        gender: 'masculino',
+        address:
+          'Calle Adolfo de la Huerta #443, Unidad Presidentes, Chihuahua, Chih.',
+        firstLogin: true,
+        avatar: 'https://i.pravatar.cc/300?img=4',
+        phone: '6141833934',
+      },
+    ]);
   }
 
-  async function generateUsers(roles) {
-    let existingUsers = await User.find();
-    const rootRole = roles.find((r) => r.name === 'root');
-    const administradorRole = roles.find((r) => r.name === 'administrador');
-    const consejoRole = roles.find((r) => r.name === 'consejo');
-    const patrocinadorRole = roles.find((r) => r.name === 'patrocinador');
-
-    if (existingUsers.length === 0) {
-      await User.createEach([
-        {
-          email: 'admin@test.com',
-          password: '12345',
-          firstName: 'Lola',
-          lastName: 'Perez',
-          phone: '6391233212',
-          gender: 'femenino',
-          firstLogin: false,
-          publicId: await sails.helpers.generateGuid(),
-          roles: [rootRole.id],
-        },
-        {
-          email: 'test2@test.com',
-          password: '12345',
-          firstName: 'Lola',
-          lastName: 'Perez',
-          phone: '6391233212',
-          gender: 'femenino',
-          publicId: await sails.helpers.generateGuid(),
-          roles: [administradorRole.id],
-        },
-        {
-          email: 'test3@test.com',
-          password: '12345',
-          firstName: 'Lola',
-          lastName: 'Perez',
-          phone: '6391233212',
-          gender: 'femenino',
-          publicId: await sails.helpers.generateGuid(),
-          roles: [consejoRole.id],
-        },
-        {
-          email: 'test4@test.com',
-          password: '12345',
-          firstName: 'Lola',
-          lastName: 'Perez',
-          phone: '6391233212',
-          gender: 'femenino',
-          publicId: await sails.helpers.generateGuid(),
-          roles: [patrocinadorRole.id],
-        },
-        {
-          email: 'test5@test.com',
-          password: '12345',
-          firstName: 'Lola',
-          lastName: 'Perez',
-          phone: '6391233212',
-          gender: 'femenino',
-          publicId: await sails.helpers.generateGuid(),
-          roles: [consejoRole.id, patrocinadorRole.id],
-        },
-      ]);
-    }
-
-    existingUsers = User.find();
-    return existingUsers;
+  async function generateCouncilProfile() {
+    await CouncilProfile.createEach([{ user: 1, publicId: 'test' }]);
+    await User.update({ id: 1 }).set({ council: 1 });
+    await Contribution.create({
+      contribution: 'Esta es mi contribucion',
+      council: 1,
+      publicId: '-',
+    });
   }
-  async function generateAssociates() {
-    let existingAssociates = await Associated.find();
-    if (existingAssociates.length === 0) {
-      await Associated.createEach([
-        {
-          name: 'Rosalva Avena Díaz',
-          placeOfBirth: 'Nuevo Casas Grandes, Chih. / 4 de Mayo de 1971',
-          rfc: 'AEDR710504MA0',
-          maritalStatus: 'Soltera',
-          profession: 'Lic. en Administración de Empresas',
-          phone: '6144271943',
-          email: 'rosalva.avena@uis.com.mx',
-          address:
-            'Privada de Fresno 1506, Col. Las Granjas, Chihuahua, Chih. C.P. 31100',
-          avatar: 'https://i.pravatar.cc/300?img=1',
-          publicId: await sails.helpers.generateGuid(),
-        },
-        {
-          name: 'Selene Mendoza Espino',
-          placeOfBirth: 'Chihuahua, Chih. / 7 de agosto de 1975',
-          rfc: 'MEES750807137',
-          maritalStatus: 'Casada',
-          profession: 'Maestra en Administración',
-          phone: '6141826885',
-          email: 'pendiente',
-          address: 'Calle 52 #5002, Col. Rosario, Chihuahua, Chih. C.P. 31030',
-          avatar: 'https://i.pravatar.cc/300?img=2',
-          publicId: await sails.helpers.generateGuid(),
-        },
-        {
-          name: 'María de la Merced Velázquez Quintana',
-          placeOfBirth: 'Santa Bárbara, Chih. / 23 de Septiembre de 1962',
-          rfc: 'VEQM620923V77',
-          maritalStatus: 'Soltera',
-          profession: 'Neuróloga',
-          phone: '6141423440',
-          email: 'merced.velazquez@uis.com.mx',
-          address:
-            'Privada de Fresno 1506, Col. Las Granjas, Chihuahua, CHih. C.P. 31100',
-          avatar: 'https://i.pravatar.cc/300?img=3',
-          publicId: await sails.helpers.generateGuid(),
-        },
-        {
-          name: 'Luis Villegas Montes',
-          placeOfBirth: 'Chihuahua, Chih. / 5 de julio de 1966',
-          rfc: 'VIML660705',
-          maritalStatus: 'Soltero',
-          profession: 'Doctor en Derecho',
-          phone: '6141833934',
-          email: 'luvimo6608@gmail.com',
-          address:
-            'Calle Adolfo de la Huerta #443, Unidad Presidentes, Chihuahua, Chih.',
-          avatar: 'https://i.pravatar.cc/300?img=4',
-          publicId: await sails.helpers.generateGuid(),
-        },
-      ]);
-    }
+  async function generateSponsorProfile() {
+    await SponsorProfile.createEach([
+      { nickName: 'testing', useNickName: true, user: 1, publicId: 'test' },
+      { nickName: 'my nick', useNickName: true, user: 3, publicId: 'test' },
+    ]);
+    await User.update({ id: 1 }).set({ sponsor: 1 });
+    await User.update({ id: 3 }).set({ sponsor: 2 });
+  }
+
+  async function generateAssociatedProfile() {
+    await AssociatedProfile.createEach([
+      {
+        placeOfBirth: 'Nuevo Casas Grandes, Chih. / 4 de Mayo de 1971',
+        rfc: 'AEDR710504MA0',
+        maritalStatus: 'soltero',
+        profession: 'Lic. en Administración de Empresas',
+        user: 2,
+        publicId: 'test',
+      },
+      {
+        placeOfBirth: 'Chihuahua, Chih. / 7 de agosto de 1975',
+        rfc: 'MEES750807137',
+        maritalStatus: 'casado',
+        profession: 'Maestra en Administración',
+        user: 3,
+        publicId: 'test',
+      },
+
+      {
+        placeOfBirth: 'Santa Bárbara, Chih. / 23 de Septiembre de 1962',
+        rfc: 'VEQM620923V77',
+        maritalStatus: 'soltero',
+        profession: 'Neuróloga',
+        user: 4,
+        publicId: 'test',
+      },
+
+      {
+        placeOfBirth: 'Chihuahua, Chih. / 5 de julio de 1966',
+        rfc: 'VIML660705',
+        maritalStatus: 'soltero',
+        profession: 'Doctor en Derecho',
+        user: 5,
+        publicId: 'test',
+      },
+    ]);
+
+    await User.update({ id: 2 }).set({ associated: 1 });
+    await User.update({ id: 3 }).set({ associated: 2 });
+    await User.update({ id: 4 }).set({ associated: 3 });
+    await User.update({ id: 5 }).set({ associated: 4 });
   }
 };

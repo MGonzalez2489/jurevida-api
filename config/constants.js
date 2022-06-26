@@ -1,3 +1,3 @@
 module.exports.constants = {
-  ROLES: ['root', 'administrador', 'consejo', 'patrocinador'],
+  //ROLES: ['root', 'administrador', 'consejo', 'patrocinador'],
 };

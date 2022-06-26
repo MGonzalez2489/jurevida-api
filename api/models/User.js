@@ -33,6 +33,9 @@ module.exports = {
       maxLength: 120,
       example: 'Gonzalez',
     },
+    fullName: {
+      type: 'string',
+    },
     phone: {
       type: 'string',
       required: true,
@@ -62,32 +65,27 @@ module.exports = {
       description:
         'This value is used when the user request a reset password workflow',
     },
-    roles: {
-      collection: 'Role',
-      via: 'users',
+    avatar: { type: 'string', allowNull: true },
+    council: {
+      model: 'CouncilProfile',
     },
-    nickName: {
-      type: 'string',
-      allowNull: true,
+    sponsor: {
+      model: 'SponsorProfile',
     },
-    useNickName: {
-      type: 'boolean',
-      defaultsTo: false,
-    },
-    contributions: {
-      collection: 'Contribution',
-      via: 'user',
+    associated: {
+      model: 'AssociatedProfile',
     },
   },
   beforeCreate: async function (valuesToSet, proceed) {
     valuesToSet.publicId = await sails.helpers.generateGuid();
+    valuesToSet.fullName = `${valuesToSet.firstName} ${valuesToSet.lastName}`;
     valuesToSet.password = await EncriptService.encriptString(
       valuesToSet.password
     );
     return proceed();
   },
   customToJSON: function () {
-    return _.omit(this, [
+    let result = _.omit(this, [
       'id',
       'createdAt',
       'createdBy',
@@ -98,17 +96,23 @@ module.exports = {
       'password',
       'resetPasswordToken',
     ]);
+
+    if (result.council && _.isObject(result.council)) {
+      delete result.council.user;
+    }
+    if (result.sponsor && _.isObject(result.sponsor)) {
+      delete result.sponsor.user;
+    }
+    if (result.associated && _.isObject(result.associated)) {
+      delete result.associated.user;
+    }
+
+    return result;
   },
   generateModelNewUser: async function (req) {
     const newUser = req.body;
     newUser.firstLogin = true;
     newUser.publicId = 'guid';
-
-    const rolesIds = await Role.find({
-      where: { name: { in: newUser.roles } },
-    });
-
-    newUser.roles = rolesIds.map((f) => f.id);
 
     if (newUser.address === '' || newUser.address === null) {
       delete newUser.address;
@@ -140,9 +144,6 @@ module.exports = {
     }
     if (!newUser.lastName) {
       return 'Apellido de usuario es requerido.';
-    }
-    if (newUser.roles.length < 1) {
-      return 'Al menos un rol es requerido para el usuario.';
     }
 
     return null;
