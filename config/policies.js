@@ -31,4 +31,7 @@ module.exports.policies = {
   ContributionController: {
     '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
   },
+  DocumentController: {
+    '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
+  },
 };

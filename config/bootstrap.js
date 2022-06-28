@@ -14,6 +14,8 @@ module.exports.bootstrap = async function () {
   generateCouncilProfile();
   generateSponsorProfile();
   generateAssociatedProfile();
+  generateDocuments();
+  generateAdminProfile();
 
   async function generateUserData() {
     await User.createEach([
@@ -107,6 +109,30 @@ module.exports.bootstrap = async function () {
     await User.update({ id: 3 }).set({ sponsor: 2 });
   }
 
+  async function generateAdminProfile() {
+    await AdministratorProfile.createEach([
+      {
+        user: 1,
+        publicId: '-',
+      },
+    ]);
+    await User.update({ id: 1 }).set({ administrator: 1 });
+  }
+
+  async function generateDocuments() {
+    await Document.createEach([
+      {
+        name: 'El Principito',
+        url: 'https://www.descubrelima.pe/wp-content/uploads/2020/03/EL-PRINCIPITO.pdf',
+        publicId: 'test',
+      },
+      {
+        name: 'Don Quijote de la Mancha',
+        url: 'http://www.daemcopiapo.cl/Biblioteca/Archivos/7_6253.pdf',
+        publicId: 'test',
+      },
+    ]);
+  }
   async function generateAssociatedProfile() {
     await AssociatedProfile.createEach([
       {

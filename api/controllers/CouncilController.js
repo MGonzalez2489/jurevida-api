@@ -22,8 +22,15 @@ module.exports = {
         { phone: { contains: keyword } },
       ];
     }
-
-    return ApiService.paginateResponse(req, res, User, query, {});
+    const resUser = await User.find(query).populate('council');
+    for await (let user of resUser) {
+      console.log('council', user.council);
+      const contributions = await Contribution.find({
+        council: user.council.id,
+      });
+      user.council.contributions = contributions;
+    }
+    return ApiService.paginateCollection(req, res, resUser, {});
   },
 
   getOne: async function (req, res) {

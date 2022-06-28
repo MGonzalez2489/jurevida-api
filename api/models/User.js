@@ -75,6 +75,9 @@ module.exports = {
     associated: {
       model: 'AssociatedProfile',
     },
+    administrator: {
+      model: 'AdministratorProfile',
+    },
   },
   beforeCreate: async function (valuesToSet, proceed) {
     valuesToSet.publicId = await sails.helpers.generateGuid();
@@ -84,10 +87,14 @@ module.exports = {
     );
     return proceed();
   },
+  beforeUpdate: async function (valuesToSet, proceed) {
+    if (valuesToSet.firstName || valuesToSet.lastName)
+      valuesToSet.fullName = `${valuesToSet.firstName} ${valuesToSet.lastName}`;
+    return proceed();
+  },
   customToJSON: function () {
     let result = _.omit(this, [
       'id',
-      'createdAt',
       'createdBy',
       'updatedAt',
       'updatedBy',
@@ -123,12 +130,6 @@ module.exports = {
   },
   generateModelExistingUser: async function (req) {
     const newUser = req.body;
-
-    const rolesIds = await Role.find({
-      where: { name: { in: newUser.roles } },
-    });
-
-    newUser.roles = rolesIds.map((f) => f.id);
 
     if (newUser.address === '' || newUser.address === null) {
       delete newUser.address;

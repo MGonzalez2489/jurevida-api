@@ -75,7 +75,30 @@ module.exports = {
   },
   putUser: async function (req, res) {
     const { publicId } = req.allParams();
+
     const userToUpdate = await User.generateModelExistingUser(req);
+
+    if (userToUpdate.sponsor) {
+      const sponsorUpdate = _.clone(userToUpdate.sponsor);
+      await SponsorProfile.update({ publicId: sponsorUpdate.publicId }).set({
+        useNickName: sponsorUpdate.useNickName,
+        nickName: sponsorUpdate.nickName,
+      });
+      delete userToUpdate.sponsor;
+    }
+    if (userToUpdate.associated) {
+      const associatedUpdate = _.clone(userToUpdate.associated);
+      await AssociatedProfile.update({
+        publicId: associatedUpdate.publicId,
+      }).set({
+        maritalStatus: associatedUpdate.maritalStatus,
+      });
+      delete userToUpdate.associated;
+    }
+    if (userToUpdate.council) {
+      delete userToUpdate.council;
+    }
+
     let updatedUser = await User.update({ publicId: publicId })
       .set(userToUpdate)
       .fetch();
