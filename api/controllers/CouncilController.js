@@ -27,6 +27,8 @@ module.exports = {
       console.log('council', user.council);
       const contributions = await Contribution.find({
         council: user.council.id,
+        deletedAt: null,
+        deletedBy: null,
       });
       user.council.contributions = contributions;
     }
