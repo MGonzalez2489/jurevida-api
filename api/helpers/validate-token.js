@@ -20,7 +20,7 @@ module.exports = {
   },
 
   fn: async function (inputs) {
-    const secret = sails.config.custom.jwtSecret || process.env.JWT_SECRET;
+    const secret = sails.config.custom.JWT_SECRET || process.env.JWT_SECRET;
 
     try {
       const res = await jwt.verify(inputs.token, secret);
