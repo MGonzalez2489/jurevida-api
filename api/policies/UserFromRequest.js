@@ -16,7 +16,7 @@ module.exports = async function (req, res, next) {
 
   req.session.user = user;
 
-  next();
+  return next();
 
   function send401() {
     res.status(401).send('Acceso Denegado');
