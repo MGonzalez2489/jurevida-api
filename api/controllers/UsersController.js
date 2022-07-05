@@ -6,49 +6,50 @@
  */
 
 module.exports = {
-  getAll: async function (req, res) {
-    const { keyword, profile } = req.allParams();
-    let query = {
-      deletedAt: null,
-      deletedBy: null,
-    };
+  //getAll: async function (req, res) {
+  //const { keyword, profile } = req.allParams();
+  //let query = {
+  //deletedAt: null,
+  //deletedBy: null,
+  //};
 
-    if (keyword && keyword !== '') {
-      query.or = [
-        { email: { contains: keyword } },
-        { firstName: { contains: keyword } },
-        { lastName: { contains: keyword } },
-        { phone: { contains: keyword } },
-      ];
-    }
-    if (profile && profile !== '') {
-      query[profile] = { '!=': null };
-    }
+  //if (keyword && keyword !== '') {
+  //query.or = [
+  //{ email: { contains: keyword } },
+  //{ firstName: { contains: keyword } },
+  //{ lastName: { contains: keyword } },
+  //{ phone: { contains: keyword } },
+  //];
+  //}
+  //if (profile && profile !== '') {
+  //query[profile] = { '!=': null };
+  //}
 
-    return ApiService.paginateResponse(req, res, User, query, {});
-  },
-  getOne: async function (req, res) {
-    const { publicId } = req.allParams();
-    const query = {
-      publicId,
-      deletedAt: null,
-      deletedBy: null,
-    };
-    const user = await User.findOne(query)
-      .populate('council')
-      .populate('sponsor')
-      .populate('associated');
+  //return ApiService.paginateResponse(req, res, User, query, {});
+  //},
+  //getOne: async function (req, res) {
+  //console.log('entro al controlleeeeer');
+  //const { publicId } = req.allParams();
+  //const query = {
+  //publicId,
+  //deletedAt: null,
+  //deletedBy: null,
+  //};
+  //const user = await User.findOne(query)
+  //.populate('council')
+  //.populate('sponsor')
+  //.populate('associated');
 
-    if (user.council) {
-      user.council.contributions = await Contribution.find({
-        council: user.council.id,
-        deletedAt: null,
-        deletedBy: null,
-      }).sort('createdAt desc');
-    }
+  //if (user.council) {
+  //user.council.contributions = await Contribution.find({
+  //council: user.council.id,
+  //deletedAt: null,
+  //deletedBy: null,
+  //}).sort('createdAt desc');
+  //}
 
-    return ApiService.response(res, user);
-  },
+  //return ApiService.response(res, user);
+  //},
   postUser: async function (req, res) {
     const newUser = await User.generateModelNewUser(req);
 

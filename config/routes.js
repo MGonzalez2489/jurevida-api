@@ -25,10 +25,14 @@ module.exports.routes = {
   'GET /auth/validateToken': 'AuthController.validateToken',
 
   //users
-  'GET /users': 'UsersController.getAll',
+  //'GET /users': 'UsersController.getAll',
+  'GET /users': { action: 'users/get-all' },
+  'GET /users/:publicId': { action: 'users/get-one' },
+  'POST /users': { action: 'users/create' },
+
   'PUT /users/:publicId': 'UsersController.putUser',
 
-  'GET /users/:publicId': 'UsersController.getOne',
+  //'GET /users/:publicId': 'UsersController.getOne',
   //Users > Council
   'GET /users/council': 'CouncilController.getAll',
   'GET /users/:publicId/council': 'CouncilController.getOne',
