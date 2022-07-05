@@ -23,7 +23,7 @@ module.exports = {
       iss: 'LogRocket Sails API', // issuer
     };
 
-    const secret = sails.config.custom.jwtSecret || process.env.JWT_SECRET;
+    const secret = sails.config.custom.JWT_SECRET || process.env.JWT_SECRET;
 
     const token = jwt.sign({ data: payload }, secret, { expiresIn: '1d' });
 

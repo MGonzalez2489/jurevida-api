@@ -30,6 +30,5 @@ module.exports = {
       'associated',
       {}
     );
-    //return ApiService.paginateResponse(req, res, User, query, {});
   },
 };
