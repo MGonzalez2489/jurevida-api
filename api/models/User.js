@@ -88,8 +88,9 @@ module.exports = {
     return proceed();
   },
   beforeUpdate: async function (valuesToSet, proceed) {
-    if (valuesToSet.firstName || valuesToSet.lastName)
+    if (valuesToSet.firstName || valuesToSet.lastName) {
       valuesToSet.fullName = `${valuesToSet.firstName} ${valuesToSet.lastName}`;
+    }
     return proceed();
   },
   customToJSON: function () {
@@ -115,38 +116,5 @@ module.exports = {
     }
 
     return result;
-  },
-  generateModelNewUser: async function (req) {
-    const newUser = req.body;
-    newUser.firstLogin = true;
-    newUser.publicId = 'guid';
-
-    if (newUser.address === '' || newUser.address === null) {
-      delete newUser.address;
-    }
-    newUser.createdBy = req.session.user.email;
-
-    return newUser;
-  },
-  generateModelExistingUser: async function (req) {
-    const newUser = req.body;
-
-    if (newUser.address === '' || newUser.address === null) {
-      delete newUser.address;
-    }
-    newUser.updatedBy = req.session.user.email;
-
-    return newUser;
-  },
-
-  validateNewUser: async function (newUser) {
-    if (!newUser.firstName) {
-      return 'Nombre de usuario es requerido.';
-    }
-    if (!newUser.lastName) {
-      return 'Apellido de usuario es requerido.';
-    }
-
-    return null;
   },
 };

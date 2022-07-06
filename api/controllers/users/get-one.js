@@ -11,6 +11,11 @@ module.exports = {
 
   fn: async function (inputs) {
     const { publicId } = inputs;
+
+    if (!publicId) {
+      return this.res.badRequest('Usuario requerido');
+    }
+
     const query = {
       publicId,
       deletedAt: null,
