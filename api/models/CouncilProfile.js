@@ -20,4 +20,8 @@ module.exports = {
     valuesToSet.publicId = await sails.helpers.generateGuid();
     return proceed();
   },
+  afterCreate: async function (council, proceed) {
+    await User.update({ id: council.user }).set({ council: council.id });
+    return proceed();
+  },
 };

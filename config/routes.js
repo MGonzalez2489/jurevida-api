@@ -21,41 +21,32 @@ module.exports.routes = {
   '/': { view: 'pages/homepage' },
 
   //auth
-  'POST /auth/login': 'AuthController.logIn',
-  'GET /auth/validateToken': 'AuthController.validateToken',
+  'POST /auth/login': { action: 'auth/login' },
+  'GET /auth/validateToken': { action: 'auth/validate-token' },
 
   //users
-  'GET /users': 'UsersController.getAll',
-  'PUT /users/:publicId': 'UsersController.putUser',
+  'GET /users': { action: 'users/get-all' },
+  'GET /users/:publicId': { action: 'users/get-one' },
+  'PUT /users/:publicId': { action: 'users/update' },
+  'DELETE /users/:publicId': { action: 'users/delete' },
 
-  'GET /users/:publicId': 'UsersController.getOne',
   //Users > Council
-  'GET /users/council': 'CouncilController.getAll',
-  'GET /users/:publicId/council': 'CouncilController.getOne',
-  'POST /users/council': 'CouncilController.create',
-  'PUT /users/:publicId/council': 'CouncilController.putUser',
+  'GET /users/council': { action: 'council/get-all' },
+  'GET /users/:publicId/council': { action: 'council/get-one' },
+  'POST /users/council': { action: 'council/create' },
+
   // Users > Sponsor
-  'POST /users/sponsor': 'SponsorController.create',
+  'POST /users/sponsor': { action: 'sponsor/create' },
   // Users > associated
-  'GET /users/associates': 'AssociatedController.getAll',
-  //'DELETE /users/:publicId': 'UsersController.deleteUser',
+  'GET /users/associates': { action: 'associated/get-all' },
 
   //Contributions
-  'POST /users/:publicId/council/contribution': 'ContributionController.create',
-  'DELETE /contribution/:publicId': 'ContributionController.delete',
+  'POST /users/:publicId/council/contribution': {
+    action: 'contribution/create',
+  },
+  'DELETE /users/:publicId/council/contribution': {
+    action: 'contribution/delete',
+  },
+  'GET /documents': { action: 'documents/get-all' },
 
-  'GET /documents': 'DocumentController.getAll',
-
-  //'PUT /resetPassword/:publicId': 'PasswordController.resetPassword',
-
-  /***************************************************************************
-   *                                                                          *
-   * More custom routes here...                                               *
-   * (See https://sailsjs.com/config/routes for examples.)                    *
-   *                                                                          *
-   * If a request to a URL doesn't match any of the routes in this file, it   *
-   * is matched against "shadow routes" (e.g. blueprint routes).  If it does  *
-   * not match any of those, it is matched against static assets.             *
-   *                                                                          *
-   ***************************************************************************/
 };

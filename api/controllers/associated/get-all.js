@@ -1,13 +1,17 @@
-/**
- * AssociatedController
- *
- * @description :: Server-side actions for handling incoming requests.
- * @help        :: See https://sailsjs.com/docs/concepts/actions
- */
-
 module.exports = {
-  getAll: async function (req, res) {
-    const { keyword } = req.allParams();
+  friendlyName: 'Get all',
+
+  description: '',
+
+  inputs: {
+    keyword: { type: 'string' },
+  },
+
+  exits: {},
+
+  fn: async function (inputs) {
+    const { keyword } = inputs;
+
     const query = {
       deletedAt: null,
       deletedBy: null,
@@ -22,9 +26,10 @@ module.exports = {
         { phone: { contains: keyword } },
       ];
     }
+
     return ApiService.paginatePopulatedResponse(
-      req,
-      res,
+      this.req,
+      this.res,
       User,
       query,
       'associated',

@@ -25,4 +25,8 @@ module.exports = {
     valuesToSet.publicId = await sails.helpers.generateGuid();
     return proceed();
   },
+  afterCreate: async function (sponsor, proceed) {
+    await User.update({ id: sponsor.user }).set({ sponsor: sponsor.id });
+    return proceed();
+  },
 };
