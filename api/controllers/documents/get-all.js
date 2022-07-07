@@ -8,7 +8,6 @@ module.exports = {
   exits: {},
 
   fn: async function (inputs) {
-    console.log('documents from action');
     const query = {
       deletedAt: null,
       deletedBy: null,

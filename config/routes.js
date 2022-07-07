@@ -49,4 +49,5 @@ module.exports.routes = {
   },
   'GET /documents': { action: 'documents/get-all' },
 
+  'PUT /resetPassword/:publicId': { action: 'password/reset' },
 };
