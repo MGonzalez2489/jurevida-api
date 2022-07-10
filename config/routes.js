@@ -47,7 +47,25 @@ module.exports.routes = {
   'DELETE /users/:publicId/council/contribution': {
     action: 'contribution/delete',
   },
-  'GET /documents': { action: 'documents/get-all' },
 
+  // Documents
+  'GET /documents': { action: 'documents/get-all' },
+  // Password
   'PUT /resetPassword/:publicId': { action: 'password/reset' },
+
+  //Financial Bank Assistant
+  'GET /financial/assistant/bank': { action: 'financial/assistant/get-bank' },
+  'GET /financial/assistant/bank/movements': {
+    action: 'financial/movement/get-bank-all',
+  },
+  'POST /financial/assistant': { action: 'financial/assistant/create' },
+  //Financial Bank Period
+  'GET /financial/period': { action: 'financial/period/get-bank' },
+  // Financial movements
+  'POST /financial/assistant/:publicId/income': {
+    action: 'financial/movement/create-income',
+  },
+  'POST /financial/assistant/:publicId/expense': {
+    action: 'financial/movement/create-expense',
+  },
 };

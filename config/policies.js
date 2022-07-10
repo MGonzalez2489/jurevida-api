@@ -34,4 +34,7 @@ module.exports.policies = {
   DocumentController: {
     '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
   },
+  FinancialController: {
+    '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
+  },
 };

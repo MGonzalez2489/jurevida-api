@@ -10,13 +10,15 @@
  */
 
 module.exports.bootstrap = async function () {
-  generateUserData();
-  generateCouncilProfile();
-  generateSponsorProfile();
-  generateAssociatedProfile();
-  generateDocuments();
-  generateAdminProfile();
-
+  const shouldCreate = true;
+  if (shouldCreate) {
+    generateUserData();
+    generateCouncilProfile();
+    generateSponsorProfile();
+    generateAssociatedProfile();
+    generateDocuments();
+    generateAdminProfile();
+  }
   async function generateUserData() {
     await User.createEach([
       {
