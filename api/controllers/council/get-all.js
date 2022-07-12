@@ -18,7 +18,7 @@ module.exports = {
       council: { '!=': null },
     };
 
-    if (_.isNull(keyword) && keyword !== '') {
+    if (keyword && keyword !== '') {
       query.or = [
         { email: { contains: keyword } },
         { firstName: { contains: keyword } },

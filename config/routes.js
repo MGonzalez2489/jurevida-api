@@ -37,6 +37,8 @@ module.exports.routes = {
 
   // Users > Sponsor
   'POST /users/sponsor': { action: 'sponsor/create' },
+  'GET /users/sponsors': { action: 'sponsor/get-all' },
+
   // Users > associated
   'GET /users/associates': { action: 'associated/get-all' },
 

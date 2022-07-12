@@ -10,8 +10,7 @@
  */
 
 module.exports.bootstrap = async function () {
-  const shouldCreate = true;
-  if (shouldCreate) {
+  if (sails.config.custom.shouldCreateSeedData) {
     generateUserData();
     generateCouncilProfile();
     generateSponsorProfile();

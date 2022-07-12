@@ -112,14 +112,6 @@ module.exports = {
       .skip(skip)
       .limit(paginate.perPage)
       .sort(sort);
-    //var result = await model
-    //.find({
-    //where: criteria,
-    //skip: skip,
-    //limit: paginate.perPage,
-    //sort: sort,
-    //})
-    //.populate(populateData);
 
     var totalCount = await model.count(criteria);
 
