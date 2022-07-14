@@ -53,6 +53,7 @@ module.exports = {
       concept,
       period: period.id,
       publicId: '-',
+      name,
       createdBy: sessionUser.id,
     }).fetch();
 

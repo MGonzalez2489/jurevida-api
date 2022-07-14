@@ -17,7 +17,6 @@ module.exports.routes = {
    * `assets` directory)                                                      *
    *                                                                          *
    ***************************************************************************/
-
   '/': { view: 'pages/homepage' },
 
   //auth
@@ -52,6 +51,7 @@ module.exports.routes = {
 
   // Documents
   'GET /documents': { action: 'documents/get-all' },
+  //'/public/*': serveStatic('./documents/', { skipAssets: true }),
   // Password
   'PUT /resetPassword/:publicId': { action: 'password/reset' },
 
@@ -59,6 +59,10 @@ module.exports.routes = {
   'GET /financial/assistant/bank': { action: 'financial/assistant/get-bank' },
   'GET /financial/assistant/bank/movements': {
     action: 'financial/movement/get-bank-all',
+  },
+  'DELETE /movement/:publicId': { action: 'financial/movement/delete' },
+  'GET /financial/assistant/bank/movements/export': {
+    action: 'financial/movement/export',
   },
   'POST /financial/assistant': { action: 'financial/assistant/create' },
   //Financial Bank Period

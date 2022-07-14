@@ -9,6 +9,7 @@ module.exports = {
     publicId: { type: 'string', description: 'Assistant public Id' },
     sponsor: { type: 'string' },
     existingSponsor: { type: 'boolean' },
+    name: { type: 'string' },
   },
 
   exits: {},
@@ -16,9 +17,9 @@ module.exports = {
   fn: async function (inputs) {
     const type = 'income';
     const sessionUser = this.req.session.user;
-    const { amount, concept, publicId, sponsor, existingSponsor } = inputs;
+    const { amount, concept, publicId, sponsor, existingSponsor, name } =
+      inputs;
     let dbSponsor = null;
-    let otSponsor = null;
 
     if (amount <= 0) {
       return this.res.badRequest('El monto no puede ser menor a 1.');
@@ -38,19 +39,7 @@ module.exports = {
         return this.res.notFound('El Sponsor no existe');
       }
       dbSponsor = dbSponsor.sponsor.id;
-    } else {
-      otSponsor = await OneTimeSponsor.findOne({ name: sponsor });
-      if (!otSponsor) {
-        console.log('entro a crear otSponsor');
-        otSponsor = await OneTimeSponsor.create({
-          name: sponsor,
-          publicId: '-',
-          createdBy: sessionUser.id,
-        }).fetch();
-      }
-      otSponsor = otSponsor.id;
     }
-
     const assistant = await FinancialAssistant.findOne({
       deletedAt: null,
       deletedBy: null,
@@ -74,7 +63,7 @@ module.exports = {
       period: period.id,
       publicId: '-',
       createdBy: sessionUser.id,
-      oTSponsor: otSponsor,
+      name,
       sponsor: dbSponsor,
     };
     console.log('new movement', n);

@@ -32,9 +32,9 @@ module.exports = {
       return ApiService.paginateCollection(this.req, this.res, [], {});
     }
     let query = `
-        select
+      select
 		    fn.publicId as publicId,
-            COALESCE(sponsor.fullName,ots.name) as name,
+            (case WHEN fn.name is NULL Then sponsor.FullName else fn.name END) as name,
             fn.createdAt,
             fn.concept,
             fn.type,
@@ -44,9 +44,8 @@ module.exports = {
                 (select sp.id, fullname from jurevidadb.user u
                 join jurevidadb.sponsorprofile sp on u.sponsor = sp.id
                 ) as sponsor on fn.sponsor = sponsor.id
-                left join jurevidadb.onetimesponsor ots on fn.oTSponsor = ots.id
                 where fn.deletedAt IS NULL and fn.deletedBy IS NULL and fn.period = ${period.id}
-      `;
+            `;
 
     if (startDate || endDate) {
       if (startDate) {
@@ -66,7 +65,7 @@ module.exports = {
     }
 
     if (name) {
-      let nameFilter = ` AND (sponsor.fullName LIKE '%${name}%' or ots.name LIKE '%${name}%' )`;
+      let nameFilter = ` AND (sponsor.fullName LIKE '%${name}%' or fn.name LIKE '%${name}%' )`;
       query = query.concat(nameFilter);
     }
 
