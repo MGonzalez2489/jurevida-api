@@ -45,6 +45,7 @@ module.exports = {
       deletedAt: null,
       deletedBy: null,
       assistant: assistant.id,
+      active: true,
     });
 
     const newMovement = await FinancialMovement.create({

@@ -21,6 +21,11 @@ module.exports = {
       inputs;
     let dbSponsor = null;
 
+    //const now = new Date().toISOString();
+    //if (now > currentPeriod.endDate) {
+    //await FinancialPeriod.validateAndCreate();
+    //}
+
     if (amount <= 0) {
       return this.res.badRequest('El monto no puede ser menor a 1.');
     }
@@ -50,10 +55,11 @@ module.exports = {
       return this.res.notFound('No se encontro el asistente indicado');
     }
 
-    const period = await FinancialPeriod.findOne({
+    let period = await FinancialPeriod.findOne({
       deletedAt: null,
       deletedBy: null,
       assistant: assistant.id,
+      active: true,
     });
 
     const n = {
@@ -66,7 +72,6 @@ module.exports = {
       name,
       sponsor: dbSponsor,
     };
-    console.log('new movement', n);
 
     const newMovement = await FinancialMovement.create(n).fetch();
 

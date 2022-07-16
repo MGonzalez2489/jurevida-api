@@ -3,15 +3,18 @@ module.exports = {
 
   description: '',
 
-  inputs: {},
+  inputs: {
+    isPettyCash: { type: 'boolean' },
+  },
 
   exits: {},
 
   fn: async function (inputs) {
+    const { isPettyCash } = inputs;
     const assistant = await FinancialAssistant.findOne({
       deletedAt: null,
       deletedBy: null,
-      isPettyCash: false,
+      isPettyCash,
     });
 
     if (!assistant) {

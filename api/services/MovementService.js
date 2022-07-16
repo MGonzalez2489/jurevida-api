@@ -1,36 +1,32 @@
 module.exports = {
-  friendlyName: 'Get bank all',
-
-  description: '',
-
-  inputs: {
-    startDate: { type: 'string' },
-    endDate: { type: 'string' },
-    name: { type: 'string' },
-    concept: { type: 'string' },
-    type: { type: 'string' },
-  },
-
-  exits: {},
-
-  fn: async function (inputs) {
-    const { startDate, endDate, name, concept, type } = inputs;
-
+  searchMovements: async function (
+    assistantPublicId,
+    startDate,
+    endDate,
+    name,
+    concept,
+    type
+  ) {
+    let response = [];
     const assistant = await FinancialAssistant.findOne({
       deletedAt: null,
       deletedBy: null,
-      isPettyCash: false,
+      publicId: assistantPublicId,
     });
 
     if (!assistant) {
-      return ApiService.paginateCollection(this.req, this.res, [], {});
+      return response;
     }
 
-    const period = await FinancialPeriod.findOne({ assistant: assistant.id });
+    const period = await FinancialPeriod.findOne({
+      assistant: assistant.id,
+      active: true,
+    });
 
     if (!period) {
-      return ApiService.paginateCollection(this.req, this.res, [], {});
+      return response;
     }
+
     let query = `
       select
 		    fn.publicId as publicId,
@@ -78,7 +74,7 @@ module.exports = {
       query = query.concat(typeFilter);
     }
 
-    const results = await sails.sendNativeQuery(query);
-    return ApiService.paginateCollection(this.req, this.res, results.rows, {});
+    response = await sails.sendNativeQuery(query);
+    return response.rows;
   },
 };

@@ -51,27 +51,37 @@ module.exports.routes = {
 
   // Documents
   'GET /documents': { action: 'documents/get-all' },
-  //'/public/*': serveStatic('./documents/', { skipAssets: true }),
   // Password
   'PUT /resetPassword/:publicId': { action: 'password/reset' },
 
-  //Financial Bank Assistant
-  'GET /financial/assistant/bank': { action: 'financial/assistant/get-bank' },
-  'GET /financial/assistant/bank/movements': {
-    action: 'financial/movement/get-bank-all',
+  //Assistant
+  'GET /assistant/bank': { action: 'assistant/get-bank' },
+  'GET /assistant/petty': { action: 'assistant/get-petty' },
+
+  'POST /assistant': { action: 'assistant/create' },
+
+  //Period
+  'GET /period': { action: 'period/get-one' },
+
+  //Movements
+  'GET /assistant/bank/movements': {
+    action: 'movement/get-bank-all',
   },
-  'DELETE /movement/:publicId': { action: 'financial/movement/delete' },
-  'GET /financial/assistant/bank/movements/export': {
-    action: 'financial/movement/export',
+  'GET /assistant/petty/movements': {
+    action: 'movement/get-petty-all',
   },
-  'POST /financial/assistant': { action: 'financial/assistant/create' },
-  //Financial Bank Period
-  'GET /financial/period': { action: 'financial/period/get-bank' },
-  // Financial movements
-  'POST /financial/assistant/:publicId/income': {
-    action: 'financial/movement/create-income',
+
+  'POST /assistant/:publicId/income': {
+    action: 'movement/create-income',
   },
-  'POST /financial/assistant/:publicId/expense': {
-    action: 'financial/movement/create-expense',
+  'POST /assistant/:publicId/expense': {
+    action: 'movement/create-expense',
+  },
+
+  'DELETE /movement/:publicId': {
+    action: 'movement/delete',
+  },
+  'GET /assistant/:publicId/movement/export': {
+    action: 'movement/export',
   },
 };

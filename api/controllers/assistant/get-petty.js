@@ -1,5 +1,5 @@
 module.exports = {
-  friendlyName: 'Get bank',
+  friendlyName: 'Get One',
 
   description: '',
 
@@ -7,11 +7,11 @@ module.exports = {
 
   exits: {},
 
-  fn: async function (inputs) {
+  fn: async function () {
     const assistantQuery = {
       deletedBy: null,
       deletedAt: null,
-      isPettyCash: false,
+      isPettyCash: true,
     };
 
     const assistant = await FinancialAssistant.findOne(assistantQuery);
@@ -27,9 +27,7 @@ module.exports = {
       assistant: assistant.id,
     };
 
-    const currentPeriod = await FinancialPeriod.findOne(periodQuery).populate(
-      'movements'
-    );
+    const currentPeriod = await FinancialPeriod.findOne(periodQuery);
     assistant.periods = [currentPeriod];
     return ApiService.response(this.res, assistant);
   },
