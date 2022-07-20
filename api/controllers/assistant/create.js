@@ -20,7 +20,7 @@ module.exports = {
       return this.res.badRequest('El monto inicial no puede ser menor a 1.');
     }
 
-    if (isPettyCash && (!bank || !accountNumber)) {
+    if (!isPettyCash && (!bank || !accountNumber)) {
       return this.res.badRequest(
         'El nombre del banco y la cuenta son necesarios para el auxiliar bancario.'
       );

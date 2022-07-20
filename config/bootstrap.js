@@ -25,7 +25,7 @@ module.exports.bootstrap = async function () {
       {
         id: 1,
         key: sails.config.custom.CONFIG_KEY.DOCS_PATH,
-        value: 'documents/',
+        value: '.tmp/uploads/',
       },
     ]);
   }

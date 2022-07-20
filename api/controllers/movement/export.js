@@ -26,7 +26,26 @@ module.exports = {
       type
     );
 
-    const file = await ExportCSVService.exportData(movements);
+    const formatedArray = movements.map((obj) => {
+      const nObject = {
+        nombre: obj.name,
+        fecha: obj.createdAt,
+        concepto: obj.concept,
+        tipo: obj.type === 'income' ? 'Entrada' : 'Salida',
+        monto: '$' + obj.amount.toFixed(2),
+      };
+      return nObject;
+    });
+
+    const headers = [
+      { id: 'nombre', title: 'Nombre' },
+      { id: 'fecha', title: 'Fecha' },
+      { id: 'concepto', title: 'Concepto' },
+      { id: 'tipo', title: 'Tipo' },
+      { id: 'monto', title: 'Monto' },
+    ];
+
+    const file = await ExportCSVService.exportData(formatedArray, headers);
     return ApiService.response(this.res, file);
   },
 };
