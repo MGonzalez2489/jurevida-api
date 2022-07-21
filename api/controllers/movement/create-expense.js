@@ -41,12 +41,16 @@ module.exports = {
       return this.res.notFound('No se encontro el asistente indicado');
     }
 
-    const period = await FinancialPeriod.findOne({
-      deletedAt: null,
-      deletedBy: null,
-      assistant: assistant.id,
-      active: true,
-    });
+    let period = await FinancialPeriod.validateAndCreate(assistant.isPettyCash);
+
+    if (!period) {
+      period = await FinancialPeriod.findOne({
+        deletedAt: null,
+        deletedBy: null,
+        assistant: assistant.id,
+        active: true,
+      });
+    }
 
     const newMovement = await FinancialMovement.create({
       type,

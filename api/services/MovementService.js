@@ -48,15 +48,15 @@ module.exports = {
         let filter = '';
         let date = new Date(startDate);
         date.setHours(0, 0, 0, 0);
-        filter = ` AND fn.createdAt >= ${date.toString()}`;
-        query.concat(filter);
+        filter = ` AND fn.createdAt >= '${date.toISOString()}'`;
+        query = query.concat(filter);
       }
       if (endDate) {
         let filter = '';
         let date = new Date(endDate);
         date.setHours(23, 59, 59, 999);
-        filter = ` AND fn.createdAt <= ${date.toString()}`;
-        query.concat(filter);
+        filter = ` AND fn.createdAt <= '${date.toISOString()}'`;
+        query = query.concat(filter);
       }
     }
 
@@ -73,7 +73,6 @@ module.exports = {
       const typeFilter = ` AND fn.type LIKE '%${type}%'`;
       query = query.concat(typeFilter);
     }
-
     response = await sails.sendNativeQuery(query);
     return response.rows;
   },

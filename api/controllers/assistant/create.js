@@ -13,11 +13,16 @@ module.exports = {
   exits: {},
 
   fn: async function (inputs) {
-    const { bank, accountNumber, isPettyCash, amount } = inputs;
+    const { bank, accountNumber, isPettyCash } = inputs;
+    let { amount } = inputs;
     const sessionUser = this.req.session.user;
 
-    if (amount <= 0) {
-      return this.res.badRequest('El monto inicial no puede ser menor a 1.');
+    if (!amount) {
+      amount = 0;
+    }
+
+    if (amount < 0) {
+      return this.res.badRequest('El monto inicial no puede ser menor a 0.');
     }
 
     if (!isPettyCash && (!bank || !accountNumber)) {

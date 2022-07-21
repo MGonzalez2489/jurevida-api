@@ -33,14 +33,14 @@ module.exports = {
     ]);
   },
 
-  validateAndCreate: async function () {
-    const bankAssistant = await FinancialAssistant.findOne({
+  validateAndCreate: async function (isPettyCash) {
+    const assistant = await FinancialAssistant.findOne({
       deletedAt: null,
       deletedBy: null,
-      isPettyCash: false,
+      isPettyCash,
     });
 
-    if (!bankAssistant) {
+    if (!assistant) {
       return null;
     }
 
@@ -48,7 +48,7 @@ module.exports = {
       deletedAt: null,
       deletedBy: null,
       active: true,
-      assistant: bankAssistant.id,
+      assistant: assistant.id,
     });
 
     const now = new Date().toISOString();
@@ -63,7 +63,7 @@ module.exports = {
       createdAt: currentPeriod.createdAt,
     }).set({
       active: false,
-      endAmount: currentPeriod.endAmount,
+      endAmount: currentPeriod.currentAmount,
     });
 
     const firstDayOfTheYear = await sails.helpers.getFirstDayOfTheYear();
@@ -75,7 +75,7 @@ module.exports = {
       currentAmount: currentPeriod.currentAmount,
       endAmount: 0,
       active: true,
-      assistant: bankAssistant.id,
+      assistant: assistant.id,
       publicId: '-',
     }).fetch();
 
