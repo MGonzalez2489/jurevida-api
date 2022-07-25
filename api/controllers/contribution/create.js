@@ -19,7 +19,7 @@ module.exports = {
     const newContribution = await Contribution.create({
       contribution: contribution,
       council: user.council.id,
-      createdBy: sessionUser.id,
+      createdBy: sessionUser.email,
       publicId: '-',
     }).fetch();
     return ApiService.response(this.res, newContribution);

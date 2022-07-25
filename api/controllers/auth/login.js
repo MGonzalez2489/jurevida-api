@@ -21,7 +21,11 @@ module.exports = {
       email: email,
       deletedBy: null,
       deletedAt: null,
-    });
+    })
+      .populate('council')
+      .populate('sponsor')
+      .populate('administrator')
+      .populate('associated');
 
     if (!existingUser) {
       return this.res.badRequest('La cuenta no existe');

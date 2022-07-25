@@ -30,7 +30,7 @@ module.exports = {
 
     user.password = await sails.helpers.generatePassword();
     user.publicId = '-';
-    user.createdBy = sessionUser.id;
+    user.createdBy = sessionUser.email;
     if (!user.sponsor) {
       return this.res.badRequest('Patrocinador Invalido');
     }
@@ -55,7 +55,7 @@ module.exports = {
       publicId: '-',
       useNickName: newSponsor.useNickName,
       nickName: newSponsor.nickName,
-      createdBy: sessionUser.id,
+      createdBy: sessionUser.email,
     }).fetch();
 
     return ApiService.response(this.res, resNewUser);

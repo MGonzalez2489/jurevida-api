@@ -33,7 +33,7 @@ module.exports = {
       return ApiService.response(this.res, null);
     }
 
-    const isNewPeriod = await FinancialPeriod.validateAndCreate();
+    const isNewPeriod = await FinancialPeriod.validateAndCreate(false);
     currentPeriod = isNewPeriod ? isNewPeriod : currentPeriod;
 
     assistant.periods = [currentPeriod];

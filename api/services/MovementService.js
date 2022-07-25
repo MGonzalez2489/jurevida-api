@@ -5,12 +5,15 @@ module.exports = {
     endDate,
     name,
     concept,
-    type
+    type,
+    periodPublicId
   ) {
     let response = [];
+
+    if (!assistantPublicId || !periodPublicId) {
+      throw Error('Invalid request');
+    }
     const assistant = await FinancialAssistant.findOne({
-      deletedAt: null,
-      deletedBy: null,
       publicId: assistantPublicId,
     });
 
@@ -20,7 +23,7 @@ module.exports = {
 
     const period = await FinancialPeriod.findOne({
       assistant: assistant.id,
-      active: true,
+      publicId: periodPublicId,
     });
 
     if (!period) {

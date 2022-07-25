@@ -66,7 +66,7 @@ module.exports = {
       concept,
       period: period.id,
       publicId: '-',
-      createdBy: sessionUser.id,
+      createdBy: sessionUser.email,
       name,
       sponsor: dbSponsor,
     };

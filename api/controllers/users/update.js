@@ -24,7 +24,7 @@ module.exports = {
       delete user.associated;
       await AssociatedProfile.update({
         publicId: associated.publicId,
-        updatedBy: sessionUser.id,
+        updatedBy: sessionUser.email,
       }).set({
         maritalStatus: associated.maritalStatus,
       });
@@ -33,7 +33,7 @@ module.exports = {
       const council = _.clone(user.council);
       delete user.council;
     }
-    user.updatedBy = sessionUser.id;
+    user.updatedBy = sessionUser.email;
 
     const updatedUser = await User.update({ publicId: publicId })
       .set(user)

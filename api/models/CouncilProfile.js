@@ -16,6 +16,20 @@ module.exports = {
       via: 'council',
     },
   },
+  customToJSON: function () {
+    let result = _.omit(this, [
+      'id',
+      'createdBy',
+      'updatedAt',
+      'updatedBy',
+      'deletedAt',
+      'deletedBy',
+      'password',
+      'resetPasswordToken',
+      'user',
+    ]);
+    return result;
+  },
   beforeCreate: async function (valuesToSet, proceed) {
     valuesToSet.publicId = await sails.helpers.generateGuid();
     return proceed();

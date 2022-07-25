@@ -27,7 +27,11 @@ module.exports = {
       assistant: assistant.id,
     };
 
-    const currentPeriod = await FinancialPeriod.findOne(periodQuery);
+    let currentPeriod = await FinancialPeriod.findOne(periodQuery);
+
+    const isNewPeriod = await FinancialPeriod.validateAndCreate(true);
+    currentPeriod = isNewPeriod ? isNewPeriod : currentPeriod;
+
     assistant.periods = [currentPeriod];
     return ApiService.response(this.res, assistant);
   },

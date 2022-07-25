@@ -81,7 +81,10 @@ module.exports.routes = {
   'DELETE /movement/:publicId': {
     action: 'movement/delete',
   },
-  'GET /assistant/:publicId/movement/export': {
+  'GET /movement/export': {
     action: 'movement/export',
   },
+
+  //Finance
+  'GET /finance': { action: 'finance/get-report' },
 };

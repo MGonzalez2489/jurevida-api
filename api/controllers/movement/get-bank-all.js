@@ -26,13 +26,21 @@ module.exports = {
       return ApiService.paginateCollection(this.req, this.res, [], {});
     }
 
+    const period = await FinancialPeriod.findOne({
+      assistant: bankAssistant.id,
+      active: true,
+      deletedAt: null,
+      deletedBy: null,
+    });
+
     const movements = await MovementService.searchMovements(
       bankAssistant.publicId,
       startDate,
       endDate,
       name,
       concept,
-      type
+      type,
+      period.publicId
     );
 
     return ApiService.paginateCollection(this.req, this.res, movements, {});

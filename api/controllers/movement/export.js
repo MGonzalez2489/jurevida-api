@@ -10,12 +10,14 @@ module.exports = {
     concept: { type: 'string' },
     type: { type: 'string' },
     assistantId: { type: 'string' },
+    periodId: { type: 'string' },
   },
 
   exits: {},
 
   fn: async function (inputs) {
-    const { startDate, endDate, name, concept, type, assistantId } = inputs;
+    const { startDate, endDate, name, concept, type, assistantId, periodId } =
+      inputs;
 
     const movements = await MovementService.searchMovements(
       assistantId,
@@ -23,7 +25,8 @@ module.exports = {
       endDate,
       name,
       concept,
-      type
+      type,
+      periodId
     );
 
     const formatedArray = movements.map((obj) => {

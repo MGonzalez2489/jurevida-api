@@ -56,7 +56,7 @@ module.exports = {
       accountNumber: isPettyCash ? null : accountNumber,
       isPettyCash,
       publicId: '-',
-      createdBy: sessionUser.id,
+      createdBy: sessionUser.email,
     };
 
     //creating financial assistants
@@ -73,7 +73,7 @@ module.exports = {
       endAmount: 0,
       active: true,
       assistant: resultAssistant.id,
-      createdBy: sessionUser.id,
+      createdBy: sessionUser.email,
       publicId: '-',
     }).fetch();
 

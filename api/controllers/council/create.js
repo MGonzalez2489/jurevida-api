@@ -30,7 +30,7 @@ module.exports = {
 
     user.password = await sails.helpers.generatePassword();
     user.publicId = '-';
-    user.createdBy = sessionUser.id;
+    user.createdBy = sessionUser.email;
     const newCouncil = _.clone(user.council);
     delete user.council;
 
@@ -48,13 +48,13 @@ module.exports = {
     const resNewCouncil = await CouncilProfile.create({
       user: resNewUser.id,
       publicId: '-',
-      createdBy: sessionUser.id,
+      createdBy: sessionUser.email,
     }).fetch();
     await Contribution.create({
       contribution: contributions[0].contribution,
       council: resNewCouncil.id,
       publicId: '-',
-      createdBy: sessionUser.id,
+      createdBy: sessionUser.email,
     }).fetch();
     //pendiente de enviar correo de verificacion
     return ApiService.response(this.res, resNewUser);

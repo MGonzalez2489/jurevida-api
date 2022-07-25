@@ -59,7 +59,7 @@ module.exports = {
       period: period.id,
       publicId: '-',
       name,
-      createdBy: sessionUser.id,
+      createdBy: sessionUser.email,
     }).fetch();
 
     return ApiService.response(this.res, newMovement);
