@@ -15,7 +15,7 @@ module.exports = {
     const query = {
       deletedAt: null,
       deletedBy: null,
-      associated: { '!=': null },
+      sponsor: { '!=': null },
     };
 
     if (keyword && keyword !== '') {
@@ -27,13 +27,6 @@ module.exports = {
       ];
     }
 
-    return ApiService.paginatePopulatedResponse(
-      this.req,
-      this.res,
-      User,
-      query,
-      'associated',
-      {}
-    );
+    return ApiService.paginateResponse(this.req, this.res, User, query, {});
   },
 };

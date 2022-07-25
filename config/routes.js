@@ -17,7 +17,6 @@ module.exports.routes = {
    * `assets` directory)                                                      *
    *                                                                          *
    ***************************************************************************/
-
   '/': { view: 'pages/homepage' },
 
   //auth
@@ -37,6 +36,8 @@ module.exports.routes = {
 
   // Users > Sponsor
   'POST /users/sponsor': { action: 'sponsor/create' },
+  'GET /users/sponsors': { action: 'sponsor/get-all' },
+
   // Users > associated
   'GET /users/associates': { action: 'associated/get-all' },
 
@@ -47,7 +48,43 @@ module.exports.routes = {
   'DELETE /users/:publicId/council/contribution': {
     action: 'contribution/delete',
   },
-  'GET /documents': { action: 'documents/get-all' },
 
+  // Documents
+  'GET /documents': { action: 'documents/get-all' },
+  // Password
   'PUT /resetPassword/:publicId': { action: 'password/reset' },
+
+  //Assistant
+  'GET /assistant/bank': { action: 'assistant/get-bank' },
+  'GET /assistant/petty': { action: 'assistant/get-petty' },
+
+  'POST /assistant': { action: 'assistant/create' },
+
+  //Period
+  'GET /period': { action: 'period/get-one' },
+
+  //Movements
+  'GET /assistant/bank/movements': {
+    action: 'movement/get-bank-all',
+  },
+  'GET /assistant/petty/movements': {
+    action: 'movement/get-petty-all',
+  },
+
+  'POST /assistant/:publicId/income': {
+    action: 'movement/create-income',
+  },
+  'POST /assistant/:publicId/expense': {
+    action: 'movement/create-expense',
+  },
+
+  'DELETE /movement/:publicId': {
+    action: 'movement/delete',
+  },
+  'GET /movement/export': {
+    action: 'movement/export',
+  },
+
+  //Finance
+  'GET /finance': { action: 'finance/get-report' },
 };

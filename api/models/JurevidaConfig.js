@@ -25,4 +25,7 @@ module.exports = {
     deletedBy: false,
   },
   customToJSON: function () {},
+  beforeCreate: function (valuesToSet, proceed) {
+    return proceed();
+  },
 };

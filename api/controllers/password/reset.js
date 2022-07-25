@@ -13,6 +13,7 @@ module.exports = {
 
   fn: async function (inputs) {
     const { publicId, currentPassword, newPassword } = inputs;
+    const sessionUser = req.session.user;
 
     const user = await User.findOne({ publicId });
 
@@ -35,6 +36,7 @@ module.exports = {
       .set({
         password: encriptedPassword,
         firstLogin: false,
+        updatedBy: sessionUser.id,
       })
       .fetch();
     return ApiService.response(this.res, updatedUser[0]);

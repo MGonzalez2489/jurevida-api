@@ -105,13 +105,13 @@ module.exports = {
       'resetPasswordToken',
     ]);
 
-    if (result.council && _.isObject(result.council)) {
+    if (result.council && _.isNumber(result.council)) {
       delete result.council.user;
     }
-    if (result.sponsor && _.isObject(result.sponsor)) {
+    if (result.sponsor && _.isNumber(result.sponsor)) {
       delete result.sponsor.user;
     }
-    if (result.associated && _.isObject(result.associated)) {
+    if (result.associated && _.isNumber(result.associated)) {
       delete result.associated.user;
     }
 

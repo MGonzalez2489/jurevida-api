@@ -34,4 +34,17 @@ module.exports.policies = {
   DocumentController: {
     '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
   },
+  AssistantController: {
+    '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
+  },
+  PeriodController: {
+    '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
+  },
+  MovementController: {
+    '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
+  },
+
+  FinancialController: {
+    '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
+  },
 };

@@ -24,4 +24,18 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
   },
+  customToJSON: function () {
+    let result = _.omit(this, [
+      'id',
+      'createdBy',
+      'updatedAt',
+      'updatedBy',
+      'deletedAt',
+      'deletedBy',
+      'password',
+      'resetPasswordToken',
+      'user',
+    ]);
+    return result;
+  },
 };

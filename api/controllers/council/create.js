@@ -11,6 +11,7 @@ module.exports = {
 
   fn: async function (inputs) {
     const { user } = inputs;
+    const sessionUser = this.req.session.user;
 
     const usedEmail = await User.findOne({ email: user.email });
 
@@ -29,6 +30,7 @@ module.exports = {
 
     user.password = await sails.helpers.generatePassword();
     user.publicId = '-';
+    user.createdBy = sessionUser.email;
     const newCouncil = _.clone(user.council);
     delete user.council;
 
@@ -46,11 +48,13 @@ module.exports = {
     const resNewCouncil = await CouncilProfile.create({
       user: resNewUser.id,
       publicId: '-',
+      createdBy: sessionUser.email,
     }).fetch();
     await Contribution.create({
       contribution: contributions[0].contribution,
       council: resNewCouncil.id,
       publicId: '-',
+      createdBy: sessionUser.email,
     }).fetch();
     //pendiente de enviar correo de verificacion
     return ApiService.response(this.res, resNewUser);

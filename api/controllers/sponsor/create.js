@@ -11,6 +11,7 @@ module.exports = {
 
   fn: async function (inputs) {
     const { user } = inputs;
+    const sessionUser = this.req.session.user;
 
     const usedEmail = await User.findOne({ email: user.email });
 
@@ -29,7 +30,7 @@ module.exports = {
 
     user.password = await sails.helpers.generatePassword();
     user.publicId = '-';
-
+    user.createdBy = sessionUser.email;
     if (!user.sponsor) {
       return this.res.badRequest('Patrocinador Invalido');
     }
@@ -54,6 +55,7 @@ module.exports = {
       publicId: '-',
       useNickName: newSponsor.useNickName,
       nickName: newSponsor.nickName,
+      createdBy: sessionUser.email,
     }).fetch();
 
     return ApiService.response(this.res, resNewUser);
