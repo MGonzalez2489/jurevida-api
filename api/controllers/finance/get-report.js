@@ -34,6 +34,9 @@ module.exports = {
       deletedAt: null,
       isPettyCash,
     });
+    if (!assistant) {
+      return ApiService.response(this.res, {});
+    }
 
     const periodQuery = {
       deletedBy: null,
@@ -48,6 +51,9 @@ module.exports = {
     }
     const period = await FinancialPeriod.findOne(periodQuery);
 
+    if (!period) {
+      return ApiService.response(this.res, {});
+    }
     const movementSearch = {
       assistantPublicId: assistant.publicId,
       startDate,
