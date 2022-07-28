@@ -42,6 +42,7 @@ module.exports = {
       deletedBy: null,
       deletedAt: null,
       assistant: assistant.id,
+      active: true,
     };
     if (periodYear && periodYear !== '') {
       const startDate = new Date(periodYear + 1, 0, 1, 1, 1, 1, 1);

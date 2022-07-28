@@ -11,7 +11,7 @@
 
 module.exports.bootstrap = async function () {
   if (sails.config.custom.shouldCreateSeedData === true) {
-    //generateBankAssistant();
+    generateBankAssistant();
     jurevidaConfig();
     generateUserData();
     generateCouncilProfile();

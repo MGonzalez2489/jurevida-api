@@ -13,7 +13,7 @@ module.exports = {
 
   fn: async function (inputs) {
     const { publicId, currentPassword, newPassword } = inputs;
-    const sessionUser = req.session.user;
+    const sessionUser = this.req.session.user;
 
     const user = await User.findOne({ publicId });
 
