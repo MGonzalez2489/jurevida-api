@@ -50,4 +50,7 @@ module.exports.policies = {
   FinanceController: {
     '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
   },
+  PasswordController: {
+    '*': ['LogRequest', 'AccessRequest', 'UserFromRequest'],
+  },
 };
