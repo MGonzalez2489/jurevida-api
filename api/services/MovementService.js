@@ -38,10 +38,10 @@ module.exports = {
             fn.concept,
             fn.type,
             fn.amount
-        from jurevidadb.financialmovement fn
+        from financialmovement fn
             left join
-                (select sp.id, fullname from jurevidadb.user u
-                join jurevidadb.sponsorprofile sp on u.sponsor = sp.id
+                (select sp.id, fullname from user u
+                join sponsorprofile sp on u.sponsor = sp.id
                 ) as sponsor on fn.sponsor = sponsor.id
                 where fn.deletedAt IS NULL and fn.deletedBy IS NULL and fn.period = ${period.id}
             `;
