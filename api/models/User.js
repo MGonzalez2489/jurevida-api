@@ -82,6 +82,7 @@ module.exports = {
   beforeCreate: async function (valuesToSet, proceed) {
     valuesToSet.publicId = await sails.helpers.generateGuid();
     valuesToSet.fullName = `${valuesToSet.firstName} ${valuesToSet.lastName}`;
+    valuesToSet.firstLogin = true;
     valuesToSet.password = await EncriptService.encriptString(
       valuesToSet.password
     );
